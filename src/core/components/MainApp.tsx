@@ -3,7 +3,6 @@ import {
     AppShell,
     Navbar,
     Header,
-    Text,
     MediaQuery,
     Burger,
     useMantineTheme,
@@ -17,10 +16,15 @@ function MainApp() {
     const [opened, setOpened] = useState(false);
     return (
         <AppShell
+            h={"100%"}
             styles={{
                 main: {
                     background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
+                    height: "100%",
                 },
+                body: {
+                    height: "100%"
+                }
             }}
             navbarOffsetBreakpoint="sm"
             asideOffsetBreakpoint="sm"

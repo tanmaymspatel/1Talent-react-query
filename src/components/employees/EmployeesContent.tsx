@@ -1,8 +1,18 @@
-function EmployeesContent() {
+import EmployeesCard from "./EmployeesCard";
+import EmployeesTable from "./EmployeesTable";
+
+function EmployeesContent({ employeesData, isGridView }: any) {
+
+    console.log({ isGridView, employeesData });
+
     return (
-        <div>
-            Employees Content
-        </div>
+        <>
+            {
+                isGridView
+                    ? <EmployeesCard employeesData={employeesData} />
+                    : <EmployeesTable employeesData={employeesData} />
+            }
+        </>
     )
 };
 

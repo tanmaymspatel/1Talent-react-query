@@ -5,6 +5,7 @@ import MainApp from './core/components/MainApp'
 function App() {
 
   const queryClient = new QueryClient();
+  localStorage.setItem("currentView", "grid");
 
   return (
     <QueryClientProvider client={queryClient}>

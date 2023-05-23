@@ -1,13 +1,17 @@
 import { Group, Switch, Title, useMantineTheme } from "@mantine/core"
 import { IconLayoutGrid, IconListDetails } from "@tabler/icons-react";
 
-function EmployeesHeader() {
+interface IEmployeesHeader {
+    dataLength: number
+}
+
+function EmployeesHeader({ dataLength }: IEmployeesHeader) {
 
     const theme = useMantineTheme();
 
     return (
         <Group position="apart">
-            <Title order={4}>Employees</Title>
+            <Title order={4}>Employees ({dataLength})</Title>
             <div>
                 <Switch
                     size="md"
