@@ -1,9 +1,10 @@
+import React from 'react';
 import { Group, Tooltip } from "@mantine/core"
 import { IconDeviceMobile, IconMail } from "@tabler/icons-react"
 
-function SingleEmployeeRow({ employee }: any) {
-    return (
-        <tr>
+const SingleEmployeeRow = React.forwardRef(({ employee }: any, ref: any) => {
+    const body = (
+        <>
             <td>{employee?.name}</td>
             <td>{employee?.employeeTypes?.employmentType ? employee?.employeeTypes?.employmentType : "N/A "}</td>
             <td>{employee?.designations?.name ? employee?.designations?.name : 'N/A'}</td>
@@ -20,8 +21,14 @@ function SingleEmployeeRow({ employee }: any) {
                     </Tooltip>
                 </Group>
             </td>
-        </tr>
+        </>
     )
-}
+
+    const content = ref
+        ? <tr ref={ref}>{body}</tr>
+        : <tr >{body}</tr>
+
+    return content;
+})
 
 export default SingleEmployeeRow;

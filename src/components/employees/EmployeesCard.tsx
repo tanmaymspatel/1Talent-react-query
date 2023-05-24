@@ -1,34 +1,30 @@
-import { Avatar, Badge, Button, Card, Group, Image, SimpleGrid, Stack, Text, Title, Tooltip, UnstyledButton, createStyles } from "@mantine/core"
+import { useEffect } from "react";
+import { SimpleGrid } from "@mantine/core"
+import { useInView } from "react-intersection-observer";
+
 import { IEmployeeDetails } from "../../shared/model/employees.model"
-import { IconMail, IconPhone } from "@tabler/icons-react"
 import SingleEmployeeCard from "./SingleEmployeeCard"
 
-const useStyle = createStyles((theme) => ({
-    card: {
-        overflow: 'inherit'
-    },
-    avatar: {
-        position: "absolute",
-        marginTop: "-50px"
-    },
-    actionBtns: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "0.5rem 0",
-        '&:first-of-type': {
-            borderRight: `1px solid ${theme.colors.gray[6]}`
-        }
-    }
-}))
+function EmployeesCard({ dataProps }: any) {
 
-function EmployeesCard({ employeesData }: any) {
+    const { employeesData, hasNextPage, fetchNextPage } = dataProps;
+    const { ref, inView } = useInView();
 
-    const { classes } = useStyle()
-
-    const cards = employeesData?.map((employee: IEmployeeDetails) => (
-        <SingleEmployeeCard key={employee.userId} employee={employee} />
+    const cards = employeesData?.pages?.map((page: IEmployeeDetails[]) => (
+        page?.map((employee: IEmployeeDetails, index: number) => {
+            if (index === 29) {
+                return <SingleEmployeeCard ref={ref} key={employee.userId} employee={employee} />
+            }
+            return <SingleEmployeeCard key={employee.userId} employee={employee} />
+        })
     ))
+
+    useEffect(() => {
+        if (inView && hasNextPage) {
+            fetchNextPage();
+        }
+    }, [inView, fetchNextPage, hasNextPage]);
+
     return (
         <SimpleGrid
             style={{ marginTop: "2rem" }}

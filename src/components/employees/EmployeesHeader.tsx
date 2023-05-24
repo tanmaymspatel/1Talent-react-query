@@ -2,12 +2,11 @@ import { Group, Switch, Title, useMantineTheme } from "@mantine/core"
 import { IconLayoutGrid, IconListDetails } from "@tabler/icons-react";
 
 interface IEmployeesHeader {
-    dataLength: number,
     isGridView: boolean,
     setView: React.Dispatch<React.SetStateAction<string>>
 }
 
-function EmployeesHeader({ dataLength, isGridView, setView }: IEmployeesHeader) {
+function EmployeesHeader({ isGridView, setView }: IEmployeesHeader) {
     const theme = useMantineTheme();
     const changeView = () => {
         setView(view => view === 'grid' ? 'list' : 'grid')
@@ -15,7 +14,7 @@ function EmployeesHeader({ dataLength, isGridView, setView }: IEmployeesHeader) 
 
     return (
         <Group position="apart">
-            <Title order={4}>Employees ({dataLength})</Title>
+            <Title order={4}>Employees</Title>
             <div>
                 <Switch
                     size="lg"
