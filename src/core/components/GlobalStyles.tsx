@@ -11,11 +11,11 @@ function GlobalStyles() {
                     margin: 0,
                     padding: 0
                 },
-                'html,body,#root': {
+                'html,body,#root, #root>div': {
                     height: "100%"
                 },
                 'html,body': {
-                    overflowX: "hidden"
+                    overflow: "hidden"
                 },
                 '.h-100': {
                     height: "100%"
