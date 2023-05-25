@@ -1,3 +1,4 @@
+import React from 'react';
 import { Card, Avatar, Group, Badge, Stack, Title, UnstyledButton, Tooltip, Text, createStyles } from "@mantine/core"
 import { IconPhone, IconMail } from "@tabler/icons-react"
 
@@ -20,12 +21,12 @@ const useStyle = createStyles((theme) => ({
     }
 }))
 
-function SingleEmployeeCard({ employee }: any) {
+const SingleEmployeeCard = React.forwardRef(({ employee }: any, ref: any) => {
 
-    const { classes } = useStyle()
+    const { classes } = useStyle();
 
-    return (
-        <Card shadow="sm" padding="lg" radius="md" withBorder className={classes.card}>
+    const body = (
+        <>
             <Avatar
                 className={classes.avatar}
                 src={"https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"}
@@ -67,8 +68,14 @@ function SingleEmployeeCard({ employee }: any) {
                     </UnstyledButton>
                 </Group>
             </Card.Section>
-        </Card>
+        </>
     )
-}
+
+    const content = ref
+        ? <Card ref={ref} shadow="sm" padding="lg" radius="md" withBorder className={classes.card}>{body}</Card>
+        : <Card shadow="sm" padding="lg" radius="md" withBorder className={classes.card}>{body}</Card>
+
+    return content;
+})
 
 export default SingleEmployeeCard

@@ -22,8 +22,8 @@ const fetchEmployees1 = async () => {
     return res.data.data;
 }
 // for fake api
-const fetchEmployees2 = async () => {
-    const res = await axios.get("/employees");
+const fetchEmployees2 = async (pageParam = 1) => {
+    const res = await axios.get(`/employees?_page=${pageParam}&_limit=30`);
     return res.data;
 }
 
