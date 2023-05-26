@@ -15,20 +15,15 @@ function App() {
   const { accounts } = useMsal();
   const { fetchEmployees1 } = employeeServices;
 
-
   const render = () => {
     try {
       const username = accounts[0].username;
       setm_strUser(username);
     }
     catch (e) {
+      console.log(e);
     }
   }
-
-  useEffect(() => {
-    fetchEmployees1().then(res => console.log(res)
-    )
-  }, [])
 
   if (m_strUser != "") {
     return (

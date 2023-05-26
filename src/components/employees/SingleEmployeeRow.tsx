@@ -1,6 +1,5 @@
 import React from 'react';
-import { Group, Tooltip } from "@mantine/core"
-import { IconDeviceMobile, IconMail } from "@tabler/icons-react"
+import SingleEmployeeContactDetails from './SingleEmployeeContactDetails';
 
 const SingleEmployeeRow = React.forwardRef(({ employee }: any, ref: any) => {
     const body = (
@@ -9,17 +8,15 @@ const SingleEmployeeRow = React.forwardRef(({ employee }: any, ref: any) => {
             <td>{employee?.employeeTypes?.employmentType ? employee?.employeeTypes?.employmentType : "N/A "}</td>
             <td>{employee?.designations?.name ? employee?.designations?.name : 'N/A'}</td>
             <td>
-                {employee.domainWithSubDomain.name !== null ? <><span> {employee.domainWithSubDomain.name}</span> <span>({employee.domainWithSubDomain.subDomain.name})</span></> : `N/A`}
+                {employee.domainWithSubDomain.name !== null
+                    ? <>
+                        <span> {employee.domainWithSubDomain.name}</span>
+                        {employee.domainWithSubDomain.subDomain.name && <span>({employee.domainWithSubDomain.subDomain.name})</span>}
+                    </>
+                    : `N/A`}
             </td>
             <td>
-                <Group position="left">
-                    <Tooltip label={employee?.mobileNumber !== null ? employee?.mobileNumber : "Mobile Number is not available"}>
-                        <IconDeviceMobile />
-                    </Tooltip>
-                    <Tooltip label={employee?.emailId}>
-                        <IconMail />
-                    </Tooltip>
-                </Group>
+                <SingleEmployeeContactDetails employee={employee}></SingleEmployeeContactDetails>
             </td>
         </>
     )
