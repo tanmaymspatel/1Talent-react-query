@@ -1,15 +1,43 @@
+import { InteractionRequiredAuthError, InteractionStatus } from "@azure/msal-browser";
+import { useMsal } from "@azure/msal-react";
 import axios from "axios"
+import { useEffect } from "react";
 
 function Interceptor(props: any) {
+
+    const { instance, inProgress, accounts } = useMsal();
+
+    useEffect(() => {
+        const accessTokenRequest = {
+            scopes: ['openid', 'offline_access', 'api://582856b6-2df6-45b5-b481-c4bb646d7cca/Employee.Read'],
+            account: accounts[0],
+        };
+        if (inProgress === InteractionStatus.None) {
+            instance
+                .acquireTokenSilent(accessTokenRequest)
+                .then((accessTokenResponse) => {
+                    // Acquire token silent success
+                    localStorage.setItem("accessToken", (accessTokenResponse.accessToken));
+
+
+                })
+                .catch((error) => {
+                    if (error instanceof InteractionRequiredAuthError) {
+                        instance.acquireTokenRedirect(accessTokenRequest);
+                    }
+                    console.log(error);
+                });
+        }
+    }, [instance, accounts, inProgress]);
+
+    const ACCESS_TOKEN = localStorage.getItem("accessToken")
     // axios.defaults.baseURL = "https://dev-1talent-api.azurewebsites.net/api";
-    axios.defaults.baseURL = "http://localhost:3000";
-    const ACCESS_TOKEN = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyIsImtpZCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyJ9.eyJhdWQiOiJhcGk6Ly81ODI4NTZiNi0yZGY2LTQ1YjUtYjQ4MS1jNGJiNjQ2ZDdjY2EiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9lYTZjMDUyYy1mOTEwLTRiMGEtYTJhMC05ZTUxNzljMGU5ZmIvIiwiaWF0IjoxNjg0OTI4ODQ0LCJuYmYiOjE2ODQ5Mjg4NDQsImV4cCI6MTY4NDkzNDAzOCwiYWNyIjoiMSIsImFpbyI6IkFUUUF5LzhUQUFBQU9DTkZuc1Y4Ukp4TWd3YlNJdCtWbFRuM1cwcmJmelpTaWtLRk53Y1U4NDZ2Vy8xTzR3ckM5RXJpTHcyMXJZWTMiLCJhbXIiOlsicHdkIiwicnNhIl0sImFwcGlkIjoiMTAwOGEwODAtZWEwZS00YmM0LTkyYTUtY2NkYWFlYmE1ZDU0IiwiYXBwaWRhY3IiOiIwIiwiZGV2aWNlaWQiOiJiMTU2MzZmNi1mNTJhLTQ0OGItOGY5Zi0xNzVhM2QwMjNkYjIiLCJmYW1pbHlfbmFtZSI6IlBhdGVsIiwiZ2l2ZW5fbmFtZSI6IlRhbm1heSIsImlwYWRkciI6IjEwMy4yNDkuMTIwLjQ2IiwibmFtZSI6IlRhbm1heSBQYXRlbCIsIm9pZCI6ImZkNTI3YTZmLWQ0ZTYtNGE1Zi05MWU2LTdmOTViZWZiODg5MCIsInB3ZF9leHAiOiIwIiwicHdkX3VybCI6Imh0dHBzOi8vcG9ydGFsLm1pY3Jvc29mdG9ubGluZS5jb20vQ2hhbmdlUGFzc3dvcmQuYXNweCIsInJoIjoiMC5BUzBBTEFWczZoRDVDa3Vpb0o1UmVjRHAtN1pXS0ZqMkxiVkZ0SUhFdTJSdGZNb3RBRFEuIiwic2NwIjoiRW1wbG95ZWUuUmVhZCIsInN1YiI6ImxNN2FSaGRmaEJBYW9kcW5ZQkNwbUYteDBwa2JWVW02ZkhRdUF5VV9jd28iLCJ0aWQiOiJlYTZjMDUyYy1mOTEwLTRiMGEtYTJhMC05ZTUxNzljMGU5ZmIiLCJ1bmlxdWVfbmFtZSI6InRhbm1heS5wYXRlbEAxcml2ZXQuY29tIiwidXBuIjoidGFubWF5LnBhdGVsQDFyaXZldC5jb20iLCJ1dGkiOiI4YUhsMDAtbFVrZXRZVTZxWnFsUkFBIiwidmVyIjoiMS4wIn0.NcREf6MDeFVmqnLMKsnCUmRd8cG-D4WPx0DhLKYUXl0vAq1G4SdtP5e1lmywV9sP7EMexL0M6WTK-KKK9GfkqawKCe7DDahNYfdBvJjucMgxMcBxF6PtJBug7iZKS5SpAVmeTJoe8XncWyC00wqAYa34qqkBgG-BAW6olE5uAxhc_tckVunMQC787418TGfxOHRkX3JA4kUH5mOSUT3Zk_LwdxSOKHXLmglqM0az_yOEo45KrhokyuvTdHUs0X6FgWSpYO_3JUOpo6CpBjcN1eXG6Q7l9pjV-RGzfpF1-hq7YT2j2XOq2YYA2_X1Iq6fUcqUl5w4zq73Sktwvh5lFA";
+    axios.defaults.baseURL = "https://dev-1talent-api.azurewebsites.net/api";
     axios.interceptors.request.use((request: any) => {
         request.headers.Author = 'Tanmay Patel'
-        request.headers.Authorization = ACCESS_TOKEN
+        request.headers.Authorization = "Bearer " + ACCESS_TOKEN
         return request
     }, (error) => console.log(error))
-
 
     return <div>{props.children}</div>
 }

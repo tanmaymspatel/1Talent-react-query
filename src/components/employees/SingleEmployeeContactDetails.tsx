@@ -1,6 +1,5 @@
 import { Group, Tooltip } from '@mantine/core'
 import { IconDeviceMobile, IconMail } from '@tabler/icons-react'
-import React from 'react'
 
 function SingleEmployeeContactDetails({ employee }: any) {
     return (

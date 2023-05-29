@@ -20,6 +20,7 @@ function EmployeesCard({ dataProps }: any) {
     ))
 
     useEffect(() => {
+
         if (inView && hasNextPage) {
             fetchNextPage();
         }

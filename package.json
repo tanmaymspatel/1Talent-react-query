@@ -4,13 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 4200",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "json": "cd src/assets/json && json-server -w db.json"
   },
   "dependencies": {
+    "@azure/msal-browser": "^2.37.0",
+    "@azure/msal-react": "^1.5.7",
     "@emotion/react": "^11.11.0",
     "@mantine/core": "^6.0.11",
     "@mantine/hooks": "^6.0.11",
@@ -19,6 +21,7 @@
     "@tanstack/react-query-devtools": "^4.29.7",
     "axios": "^1.4.0",
     "react": "^18.2.0",
+    "react-aad-msal": "^2.3.5",
     "react-dom": "^18.2.0",
     "react-intersection-observer": "^9.4.3",
     "react-router-dom": "^6.11.2"

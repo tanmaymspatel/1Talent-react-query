@@ -17,8 +17,8 @@ const body = {
     "field": "Name"
 }
 // for original api
-const fetchEmployees1 = async () => {
-    const res = await axios.post("/users", body);
+const fetchEmployees1 = async (pageParam = 1, searchText: string) => {
+    const res = await axios.post(`/users?pageNumber=${pageParam}&pageSize=30&searchText=${searchText}`, body);
     return res.data.data;
 }
 // for fake api
