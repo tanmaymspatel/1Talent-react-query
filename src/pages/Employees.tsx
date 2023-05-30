@@ -38,7 +38,7 @@ function Employees() {
                 <EmployeesHeader isGridView={isGridView} setView={setView} />
             </header>
             <main id="main" className={classes.main}>
-                <EmployeesContent isGridView={isGridView} currentView={currentView} />
+                <EmployeesContent isGridView={isGridView} view={view} />
             </main>
         </Stack>
     )

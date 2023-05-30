@@ -1,15 +1,28 @@
 import React from 'react';
 import SingleEmployeeContactDetails from './SingleEmployeeContactDetails';
 import { useNavigate } from 'react-router-dom';
-
+/**
+ * @erturns a row of table showing employee details
+ */
 const SingleEmployeeRow = React.forwardRef(({ employee }: any, ref: any) => {
 
     const navigate = useNavigate();
+    /**
+     * @name onClickHandler
+     * @description navigate to perticular user details page, stores data of isClicked and clickedId to the localstorage
+     */
     const onClickHandler = () => {
         navigate(`${employee?.userId}/profile`);
         localStorage.setItem("isClicked", "true");
         localStorage.setItem("clickedId", employee?.userId);
     }
+
+    const getEmployeeDomainAndSubDomain = employee.domainWithSubDomain.name !== null
+        ? <>
+            <span> {employee.domainWithSubDomain.name}</span>
+            {employee.domainWithSubDomain.subDomain.name && <span>({employee.domainWithSubDomain.subDomain.name})</span>}
+        </>
+        : `N/A`
 
     const body = (
         <>
@@ -17,12 +30,7 @@ const SingleEmployeeRow = React.forwardRef(({ employee }: any, ref: any) => {
             <td>{employee?.employeeTypes?.employmentType ? employee?.employeeTypes?.employmentType : "N/A "}</td>
             <td>{employee?.designations?.name ? employee?.designations?.name : 'N/A'}</td>
             <td>
-                {employee.domainWithSubDomain.name !== null
-                    ? <>
-                        <span> {employee.domainWithSubDomain.name}</span>
-                        {employee.domainWithSubDomain.subDomain.name && <span>({employee.domainWithSubDomain.subDomain.name})</span>}
-                    </>
-                    : `N/A`}
+                {getEmployeeDomainAndSubDomain}
             </td>
             <td>
                 <SingleEmployeeContactDetails employee={employee}></SingleEmployeeContactDetails>
@@ -31,8 +39,8 @@ const SingleEmployeeRow = React.forwardRef(({ employee }: any, ref: any) => {
     )
 
     const content = ref
-        ? <tr ref={ref} id={`row-${employee?.userId}`} data-item="true">{body}</tr>
-        : <tr id={`row-${employee?.userId}`} data-item="true">{body}</tr>
+        ? <tr ref={ref} className={`user-${employee?.userId}`} data-item="true">{body}</tr>
+        : <tr className={`user-${employee?.userId}`} data-item="true">{body}</tr>
 
     return content;
 })
