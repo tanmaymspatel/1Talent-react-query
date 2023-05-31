@@ -5,6 +5,8 @@ import { InteractionType } from '@azure/msal-browser';
 
 import MainApp from './core/components/MainApp'
 import { useState } from 'react';
+import SearchContextProvider from './context/searchContext/SearchContextProvider';
+import DataContextProvider from './context/dataContext/DataContextProvider';
 function App() {
 
   const queryClient = new QueryClient();
@@ -26,7 +28,9 @@ function App() {
   if (m_strUser != "") {
     return (
       <QueryClientProvider client={queryClient}>
-        <MainApp />
+        <DataContextProvider>
+          <MainApp />
+        </DataContextProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </ QueryClientProvider>
     )
