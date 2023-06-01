@@ -6,8 +6,8 @@ import EmployeesContent from "../components/employees/EmployeesContent";
 
 const useStyle = createStyles(() => ({
     header: {
-        flex: "0 0 50px",
-        maxHeight: "50px",
+        flex: "0 0 65px",
+        maxHeight: "65px",
     },
     main: {
         flexGrow: 1,
@@ -26,11 +26,6 @@ function Employees() {
     useEffect(() => {
         localStorage.setItem("currentView", view)
     }, [view]);
-
-    // useEffect(() => {
-    //     const main = document.getElementById("main")
-    //     console.log(main?.getBoundingClientRect());
-    // }, [currentView])
 
     return (
         <Stack h={"100%"} spacing={0}>

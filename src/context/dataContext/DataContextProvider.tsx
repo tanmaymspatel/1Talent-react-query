@@ -3,7 +3,7 @@ import { initialPayLoad } from "../../shared/data/data";
 import employeeServices from "../../shared/services/employeeServices";
 import { DataContext } from "./dataContext";
 import { useDebouncedValue } from "@mantine/hooks";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface IDataProviderProps {
     children: React.ReactNode;
@@ -28,9 +28,7 @@ function DataContextProvider({ children }: IDataProviderProps) {
         search,
         setSearch
     }
-    useEffect(() => {
-        console.log(debounced);
-    }, [debounced])
+
     return (
         <DataContext.Provider value={dataCtx}>
             {children}

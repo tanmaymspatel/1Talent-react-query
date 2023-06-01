@@ -4,6 +4,7 @@ import { Group, Input, SegmentedControl, ThemeIcon, UnstyledButton, createStyles
 import { IconListDetails, IconLayoutGrid, IconSearch, IconFilter } from "@tabler/icons-react";
 import { SearchContext } from "../../context/searchContext/searchContext";
 import { DataContext } from '../../context/dataContext/dataContext';
+import FilterEmployees from './FilterEmployees';
 
 interface IEmployeeHeaderRightProps {
     view: string,
@@ -36,34 +37,36 @@ function EmployeeHeaderRight({ view, setView }: IEmployeeHeaderRightProps) {
     const changeView = () => {
         setView(view => view === 'grid' ? 'list' : 'grid')
     }
-    // const { searchText, setSearchText } = useContext<any>(SearchContext);
-    const { search, setSearch } = useContext<any>(DataContext)
-    // const [debounced] = useDebouncedValue(search, 500)
-
+    const { search, setSearch } = useContext<any>(DataContext);
+    const [isFilter, setIsFilter] = useState<boolean>(false);
 
     return (
-        <Group spacing={"md"}>
-            <Input
-                icon={<IconSearch color={theme.black} />}
-                placeholder="Search Employees"
-                value={search}
-                onChange={(e) => setSearch(e.currentTarget.value)}
-            />
-            <UnstyledButton>
-                <ThemeIcon variant="default" size={"2rem"}>
-                    <IconFilter size={"1.25rem"} />
-                </ThemeIcon>
-            </UnstyledButton>
-            <SegmentedControl
-                value={view}
-                onChange={changeView}
-                classNames={{
-                    // label: classes.label,
-                    root: classes.root
-                }}
-                data={segmentData}
-            />
-
+        <Group>
+            {!isFilter
+                ? <Group>
+                    <Input
+                        icon={<IconSearch color={theme.black} />}
+                        placeholder="Search Employees"
+                        value={search}
+                        onChange={(e) => setSearch(e.currentTarget.value)}
+                    />
+                    <UnstyledButton onClick={() => setIsFilter(true)}>
+                        <ThemeIcon variant="default" size={"2rem"}>
+                            <IconFilter size={"1.25rem"} />
+                        </ThemeIcon>
+                    </UnstyledButton>
+                    <SegmentedControl
+                        value={view}
+                        onChange={changeView}
+                        classNames={{
+                            // label: classes.label,
+                            root: classes.root
+                        }}
+                        data={segmentData}
+                    />
+                </Group>
+                : <FilterEmployees setIsFilter={setIsFilter} />
+            }
         </Group>
     )
 }
