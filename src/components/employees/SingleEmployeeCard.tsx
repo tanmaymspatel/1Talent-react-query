@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Avatar, Group, Badge, Stack, Title, UnstyledButton, Tooltip, Text, createStyles } from "@mantine/core"
 import { IconPhone, IconMail } from "@tabler/icons-react"
+import { useNavigate } from 'react-router-dom';
 
 const useStyle = createStyles((theme) => ({
     card: {
@@ -20,10 +21,29 @@ const useStyle = createStyles((theme) => ({
         }
     }
 }))
-
+/**
+ * @returns a single card having respective employee details
+ */
 const SingleEmployeeCard = React.forwardRef(({ employee }: any, ref: any) => {
 
-    const { classes } = useStyle();
+    const { classes, cx } = useStyle();
+    const navigate = useNavigate();
+    /**
+     * @name onClickHandler
+     * @description navigate to perticular user details page, stores data of isClicked and clickedId to the localstorage
+     */
+    const onClickHandler = () => {
+        navigate(`${employee?.userId}/profile`);
+        localStorage.setItem("isClicked", "true");
+        localStorage.setItem("clickedId", employee?.userId);
+    }
+    //details od domain and sub-domain
+    const getEmployeeDomainAndSubDomain = employee.domainWithSubDomain.name !== null
+        ? <>
+            <span> {employee.domainWithSubDomain.name}</span>
+            {employee.domainWithSubDomain.subDomain.name && <span>({employee.domainWithSubDomain.subDomain.name})</span>}
+        </>
+        : `N/A`
 
     const body = (
         <>
@@ -41,11 +61,11 @@ const SingleEmployeeCard = React.forwardRef(({ employee }: any, ref: any) => {
 
             <Stack spacing={0}>
                 <Text>{employee?.userCode ? employee?.userCode : "N/A"}</Text>
-                <Title order={3}>{employee?.name}</Title>
+                <Title order={3} style={{ cursor: "pointer" }} onClick={() => onClickHandler()}>{employee?.name}</Title>
                 <Group spacing={"5px"}>
                     <Text>{employee?.designations.name}</Text>
                     {employee?.designations.name && <Text>|</Text>}
-                    <Text>{employee.domainWithSubDomain.name !== null ? <><span> {employee.domainWithSubDomain.name}</span> <span>({employee.domainWithSubDomain.subDomain.name})</span></> : `N/A`}</Text>
+                    <Text>{getEmployeeDomainAndSubDomain}</Text>
                 </Group>
             </Stack>
             <Card.Section withBorder inheritPadding mt={"md"}>
@@ -70,12 +90,12 @@ const SingleEmployeeCard = React.forwardRef(({ employee }: any, ref: any) => {
             </Card.Section>
         </>
     )
-
+    // if ref is there (last element is the list) then attach the ref to the element
     const content = ref
-        ? <Card ref={ref} shadow="sm" padding="lg" radius="md" withBorder className={classes.card}>{body}</Card>
-        : <Card shadow="sm" padding="lg" radius="md" withBorder className={classes.card}>{body}</Card>
+        ? <Card ref={ref} shadow="sm" padding="lg" radius="md" withBorder className={cx(`user-${employee?.userId}`, classes.card)} data-item="true">{body}</Card>
+        : <Card shadow="sm" padding="lg" radius="md" withBorder className={cx(`user-${employee?.userId}`, classes.card)} data-item="true">{body}</Card>
 
     return content;
 })
 
-export default SingleEmployeeCard
+export default SingleEmployeeCard;

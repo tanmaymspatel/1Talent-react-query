@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useMsal, useMsalAuthentication } from '@azure/msal-react';
@@ -6,14 +5,15 @@ import { InteractionType } from '@azure/msal-browser';
 
 import MainApp from './core/components/MainApp'
 import { useState } from 'react';
-import employeeServices from './shared/services/employeeServices';
+import SearchContextProvider from './context/searchContext/SearchContextProvider';
+import DataContextProvider from './context/dataContext/DataContextProvider';
 function App() {
 
   const queryClient = new QueryClient();
   useMsalAuthentication(InteractionType.Redirect);
   const [m_strUser, setm_strUser] = useState<string>("");
   const { accounts } = useMsal();
-  const { fetchEmployees1 } = employeeServices;
+  localStorage.setItem("isClicked", "false");
 
   const render = () => {
     try {
@@ -28,7 +28,9 @@ function App() {
   if (m_strUser != "") {
     return (
       <QueryClientProvider client={queryClient}>
-        <MainApp />
+        <DataContextProvider>
+          <MainApp />
+        </DataContextProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </ QueryClientProvider>
     )

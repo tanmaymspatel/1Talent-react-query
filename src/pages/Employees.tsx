@@ -17,6 +17,7 @@ const useStyle = createStyles(() => ({
 }))
 
 function Employees() {
+
     const currentView = localStorage.getItem('currentView') as string || 'grid';
     const { classes } = useStyle();
     const [view, setView] = useState<string>(currentView)
@@ -26,13 +27,18 @@ function Employees() {
         localStorage.setItem("currentView", view)
     }, [view]);
 
+    // useEffect(() => {
+    //     const main = document.getElementById("main")
+    //     console.log(main?.getBoundingClientRect());
+    // }, [currentView])
+
     return (
         <Stack h={"100%"} spacing={0}>
             <header className={classes.header}>
-                <EmployeesHeader isGridView={isGridView} setView={setView} />
+                <EmployeesHeader setView={setView} view={view} />
             </header>
-            <main className={classes.main}>
-                <EmployeesContent isGridView={isGridView} />
+            <main id="main" className={classes.main}>
+                <EmployeesContent isGridView={isGridView} view={view} />
             </main>
         </Stack>
     )

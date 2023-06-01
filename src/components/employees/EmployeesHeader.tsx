@@ -1,30 +1,20 @@
-import { Group, Switch, Title, useMantineTheme } from "@mantine/core"
+import { Group, SegmentedControl, Switch, Title, createStyles, useMantineTheme } from "@mantine/core"
 import { IconLayoutGrid, IconListDetails } from "@tabler/icons-react";
+import EmployeeHeaderRight from "./EmployeeHeaderRight";
 
 interface IEmployeesHeader {
-    isGridView: boolean,
-    setView: React.Dispatch<React.SetStateAction<string>>
+    setView: React.Dispatch<React.SetStateAction<string>>,
+    view: string
 }
 
-function EmployeesHeader({ isGridView, setView }: IEmployeesHeader) {
+
+function EmployeesHeader({ setView, view }: IEmployeesHeader) {
     const theme = useMantineTheme();
-    const changeView = () => {
-        setView(view => view === 'grid' ? 'list' : 'grid')
-    }
 
     return (
         <Group position="apart">
             <Title order={4}>Employees</Title>
-            <div>
-                <Switch
-                    size="lg"
-                    // color={theme.colorScheme === 'dark' ? 'gray' : 'dark'}
-                    onLabel={<IconListDetails size="1.25rem" stroke={2.5} color={theme.colors.gray[4]} />}
-                    offLabel={<IconLayoutGrid size="1.25rem" stroke={2.5} color={theme.colors.blue[6]} />}
-                    onChange={changeView}
-                    checked={isGridView}
-                />
-            </div>
+            <EmployeeHeaderRight view={view} setView={setView} />
         </Group>
     )
 }

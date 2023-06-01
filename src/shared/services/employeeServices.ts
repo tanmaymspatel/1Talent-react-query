@@ -1,24 +1,9 @@
 import axios from 'axios'
 
-const body = {
-    "filter": {
-        "employmentTypeId": [],
-        "designations": [],
-        "domains": [],
-        "subDomains": [],
-        "genders": [],
-        "maritalStatus": [],
-        "roles": [],
-        "workShifts": [],
-        "experienceLevels": [],
-        "reportingOffices": []
-    },
-    "order": "asc",
-    "field": "Name"
-}
+
 // for original api
-const fetchEmployees1 = async (pageParam = 1, searchText: string) => {
-    const res = await axios.post(`/users?pageNumber=${pageParam}&pageSize=30&searchText=${searchText}`, body);
+const fetchEmployees1 = async (pageParam = 1, searchText: string, payLoad: any) => {
+    const res = await axios.post(`/users?pageNumber=${pageParam}&pageSize=30&searchText=${searchText}`, payLoad);
     return res.data.data;
 }
 // for fake api
