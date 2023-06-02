@@ -4,11 +4,13 @@ import { Group, Input, SegmentedControl, ThemeIcon, UnstyledButton, createStyles
 import { IconListDetails, IconLayoutGrid, IconSearch, IconFilter } from "@tabler/icons-react";
 import { SearchContext } from "../../context/searchContext/searchContext";
 import { DataContext } from '../../context/dataContext/dataContext';
-import FilterEmployees from './FilterEmployees';
+import FilterEmployees from '../filter/FilterEmployees';
+import useFetchFilterFields from '../../hooks/useFetchFilterFields';
 
 interface IEmployeeHeaderRightProps {
     view: string,
-    setView: React.Dispatch<React.SetStateAction<string>>
+    setView: React.Dispatch<React.SetStateAction<string>>,
+    filterFields: any
 }
 
 const useStyle = createStyles((theme) => ({
@@ -31,7 +33,7 @@ const segmentData = [
     },
 ]
 
-function EmployeeHeaderRight({ view, setView }: IEmployeeHeaderRightProps) {
+function EmployeeHeaderRight({ view, setView, filterFields }: IEmployeeHeaderRightProps) {
     const { classes } = useStyle();
     const theme = useMantineTheme();
     const changeView = () => {
@@ -65,7 +67,7 @@ function EmployeeHeaderRight({ view, setView }: IEmployeeHeaderRightProps) {
                         data={segmentData}
                     />
                 </Group>
-                : <FilterEmployees setIsFilter={setIsFilter} />
+                : <FilterEmployees filterFields={filterFields} setIsFilter={setIsFilter} />
             }
         </Group>
     )

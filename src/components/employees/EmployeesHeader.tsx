@@ -1,6 +1,7 @@
-import { Group, SegmentedControl, Switch, Title, createStyles, useMantineTheme } from "@mantine/core"
-import { IconLayoutGrid, IconListDetails } from "@tabler/icons-react";
+import { Group, Title } from "@mantine/core";
+
 import EmployeeHeaderRight from "./EmployeeHeaderRight";
+import useFetchFilterFields from "../../hooks/useFetchFilterFields";
 
 interface IEmployeesHeader {
     setView: React.Dispatch<React.SetStateAction<string>>,
@@ -9,12 +10,19 @@ interface IEmployeesHeader {
 
 
 function EmployeesHeader({ setView, view }: IEmployeesHeader) {
-    const theme = useMantineTheme();
+    const { domainFields, designationFields, employeeTypesFields, genderFields } = useFetchFilterFields();
+
+    const filterFields = {
+        domainFields,
+        designationFields,
+        employeeTypesFields,
+        genderFields
+    }
 
     return (
         <Group position="apart">
             <Title order={4}>Employees</Title>
-            <EmployeeHeaderRight view={view} setView={setView} />
+            <EmployeeHeaderRight filterFields={filterFields} view={view} setView={setView} />
         </Group>
     )
 }

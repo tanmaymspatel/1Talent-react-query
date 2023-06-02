@@ -3,7 +3,8 @@ import { initialPayLoad } from "../../shared/data/data";
 import employeeServices from "../../shared/services/employeeServices";
 import { DataContext } from "./dataContext";
 import { useDebouncedValue } from "@mantine/hooks";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { FilterFieldsContext } from "../filterContext/filterFieldsContext";
 
 interface IDataProviderProps {
     children: React.ReactNode;
@@ -11,9 +12,10 @@ interface IDataProviderProps {
 
 function DataContextProvider({ children }: IDataProviderProps) {
     const [search, setSearch] = useState<string>('')
+    const { requestPayload } = useContext<any>(FilterFieldsContext);
     const [debounced] = useDebouncedValue(search, 500)
     const { fetchEmployees1 } = employeeServices;
-    const { data: employeesData, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery(["employees", debounced], ({ pageParam = 1 }) => fetchEmployees1(pageParam, debounced, initialPayLoad), {
+    const { data: employeesData, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery(["employees", debounced], ({ pageParam = 1 }) => fetchEmployees1(pageParam, debounced, requestPayload), {
         staleTime: 60000,
         getNextPageParam: (lastPage, allPages) => {
             return lastPage.length === 30 ? allPages.length + 1 : undefined
