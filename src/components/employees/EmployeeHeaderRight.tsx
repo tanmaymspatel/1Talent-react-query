@@ -40,11 +40,11 @@ function EmployeeHeaderRight({ view, setView, filterFields }: IEmployeeHeaderRig
         setView(view => view === 'grid' ? 'list' : 'grid')
     }
     const { search, setSearch } = useContext<any>(DataContext);
-    const [isFilter, setIsFilter] = useState<boolean>(false);
+    const [isFilterBarOpen, setIsFilterBarOpen] = useState<boolean>(false);
 
     return (
         <Group>
-            {!isFilter
+            {!isFilterBarOpen
                 ? <Group>
                     <Input
                         icon={<IconSearch color={theme.black} />}
@@ -52,7 +52,7 @@ function EmployeeHeaderRight({ view, setView, filterFields }: IEmployeeHeaderRig
                         value={search}
                         onChange={(e) => setSearch(e.currentTarget.value)}
                     />
-                    <UnstyledButton onClick={() => setIsFilter(true)}>
+                    <UnstyledButton onClick={() => setIsFilterBarOpen(true)}>
                         <ThemeIcon variant="default" size={"2rem"}>
                             <IconFilter size={"1.25rem"} />
                         </ThemeIcon>
@@ -67,7 +67,7 @@ function EmployeeHeaderRight({ view, setView, filterFields }: IEmployeeHeaderRig
                         data={segmentData}
                     />
                 </Group>
-                : <FilterEmployees filterFields={filterFields} setIsFilter={setIsFilter} />
+                : <FilterEmployees filterFields={filterFields} setIsFilterBarOpen={setIsFilterBarOpen} />
             }
         </Group>
     )

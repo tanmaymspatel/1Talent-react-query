@@ -1,10 +1,12 @@
-import { Button, Checkbox, Divider, Group, Menu, Stack, Text, UnstyledButton, createStyles } from "@mantine/core"
+import { Button, Divider, Group, Menu, Text, UnstyledButton, createStyles } from "@mantine/core"
 import { IconChevronDown } from "@tabler/icons-react"
 
 import EmployeeTypesFilter from "./EmployeeTypesFilter";
 import DesignationsFilter from "./DesignationsFilter";
 import GendersFilter from "./GendersFilter";
 import DomainsFilter from "./DomainsFilter";
+import { useContext, useEffect, useState } from "react";
+import { FilterFieldsContext } from "../../context/filterContext/filterFieldsContext";
 
 const useStyle = createStyles((theme) => ({
     wrapper: {
@@ -21,9 +23,34 @@ const useStyle = createStyles((theme) => ({
     }
 }))
 
-function FilterEmployees({ setIsFilter, filterFields }: any) {
+const initialLocalFilterFields = {
+    designations: [],
+    domains: [],
+    employmentTypeId: [],
+    genders: [],
+    isPagination: true,
+    subDomains: []
+}
+
+function FilterEmployees({ setIsFilterBarOpen, filterFields }: any) {
     const { classes } = useStyle();
-    const { domainFields, employeeTypesFields, designationFields, genderFields } = filterFields
+    const { domainFields, employeeTypesFields, designationFields, genderFields } = filterFields;
+    const [localFilterFields, setLocalFilterFields] = useState<any>(initialLocalFilterFields);
+    const { setRequestPayLoad } = useContext<any>(FilterFieldsContext)
+    const setRequestPayLoadOnApply = () => {
+        setRequestPayLoad((prev: any) => { return { ...prev, filter: localFilterFields } })
+        setLocalFilterFields(localFilterFields)
+    }
+    const isFilterFieldsEmpty =
+        !localFilterFields.designations.length
+        && !localFilterFields.domains.length
+        && !localFilterFields.employmentTypeId.length
+        && !localFilterFields.genders.length
+        && !localFilterFields.subDomains.length;
+
+    useEffect(() => {
+        console.log(localFilterFields);
+    }, [localFilterFields])
 
     return (
         <Group spacing={"xs"} className={classes.wrapper}>
@@ -38,7 +65,7 @@ function FilterEmployees({ setIsFilter, filterFields }: any) {
                 </Menu.Target>
 
                 <Menu.Dropdown className={classes.dropdown}>
-                    <EmployeeTypesFilter employeeTypesFields={employeeTypesFields} />
+                    <EmployeeTypesFilter employeeTypesFields={employeeTypesFields} setLocalFilterFields={setLocalFilterFields} />
                 </Menu.Dropdown>
             </Menu>
             <Menu>
@@ -52,7 +79,7 @@ function FilterEmployees({ setIsFilter, filterFields }: any) {
                 </Menu.Target>
 
                 <Menu.Dropdown className={classes.dropdown}>
-                    <DomainsFilter domainFields={domainFields} />
+                    <DomainsFilter domainFields={domainFields} setLocalFilterFields={setLocalFilterFields} />
                 </Menu.Dropdown>
             </Menu>
             <Menu>
@@ -66,7 +93,7 @@ function FilterEmployees({ setIsFilter, filterFields }: any) {
                 </Menu.Target>
 
                 <Menu.Dropdown className={classes.dropdown}>
-                    <DesignationsFilter designationFields={designationFields} />
+                    <DesignationsFilter designationFields={designationFields} setLocalFilterFields={setLocalFilterFields} />
                 </Menu.Dropdown>
             </Menu>
             <Menu>
@@ -80,13 +107,13 @@ function FilterEmployees({ setIsFilter, filterFields }: any) {
                 </Menu.Target>
 
                 <Menu.Dropdown className={classes.dropdown}>
-                    <GendersFilter genderFields={genderFields} />
+                    <GendersFilter genderFields={genderFields} setLocalFilterFields={setLocalFilterFields} />
                 </Menu.Dropdown>
             </Menu>
             <Divider orientation="vertical" />
             <Group spacing={6} p={"0.5rem"}>
-                <Button size="xs">Apply</Button>
-                <Button size="xs" variant="outline" onClick={() => setIsFilter(false)}>Close</Button>
+                <Button size="xs" disabled={isFilterFieldsEmpty} onClick={setRequestPayLoadOnApply}>Apply</Button>
+                <Button size="xs" variant="outline" onClick={() => setIsFilterBarOpen(false)}>Close</Button>
             </Group>
         </Group >
     )

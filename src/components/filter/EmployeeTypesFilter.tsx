@@ -1,8 +1,7 @@
 import { Stack, Checkbox } from "@mantine/core";
 import { useEffect, useState } from "react";
-import useFetchEmployementTypes from "../../hooks/useFetchEmployementTypes";
 
-function EmployeeTypesFilter({ employeeTypesFields }: any) {
+function EmployeeTypesFilter({ employeeTypesFields, setLocalFilterFields }: any) {
     const [employementValue, setEmployementValue] = useState<string[]>([]);
 
     const handleemployementTypeChange = (id: string) => {
@@ -13,6 +12,7 @@ function EmployeeTypesFilter({ employeeTypesFields }: any) {
     }
     useEffect(() => {
         console.log(employementValue);
+        setLocalFilterFields((prev: any) => { return { ...prev, employmentTypeId: employementValue } })
     }, [employementValue])
     return (
         <Stack>

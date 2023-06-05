@@ -2,7 +2,7 @@ import { Stack, Checkbox } from "@mantine/core";
 import { useState, useEffect } from "react";
 import useFetchGenders from "../../hooks/useFetchGenders";
 
-function GendersFilter({ genderFields }: any) {
+function GendersFilter({ genderFields, setLocalFilterFields }: any) {
     const [gendersValue, setGendersValue] = useState<string[]>([]);
     const handleDesignationsChange = (id: string) => {
         const updatedValues = gendersValue.includes(id)
@@ -12,6 +12,7 @@ function GendersFilter({ genderFields }: any) {
     }
     useEffect(() => {
         console.log(gendersValue);
+        setLocalFilterFields((prev: any) => { return { ...prev, genders: gendersValue } })
     }, [gendersValue])
     return (
         <Stack>

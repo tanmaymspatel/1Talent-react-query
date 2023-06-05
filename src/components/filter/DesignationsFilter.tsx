@@ -1,8 +1,7 @@
 import { Stack, Checkbox } from "@mantine/core";
 import { useEffect, useState } from "react";
-import useFetchDesignations from "../../hooks/useFetchDesignations";
 
-function DesignationsFilter({ designationFields }: any) {
+function DesignationsFilter({ designationFields, setLocalFilterFields }: any) {
     const [designationsValue, setDesignationsValue] = useState<string[]>([]);
 
     const handleDesignationsChange = (id: string) => {
@@ -12,7 +11,8 @@ function DesignationsFilter({ designationFields }: any) {
         setDesignationsValue(updatedValues);
     }
     useEffect(() => {
-        console.log(designationsValue);
+        // console.log(designationsValue);
+        setLocalFilterFields((prev: any) => { return { ...prev, designations: designationsValue } })
     }, [designationsValue])
     return (
         <Stack>

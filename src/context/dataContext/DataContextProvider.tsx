@@ -15,7 +15,7 @@ function DataContextProvider({ children }: IDataProviderProps) {
     const { requestPayload } = useContext<any>(FilterFieldsContext);
     const [debounced] = useDebouncedValue(search, 500)
     const { fetchEmployees1 } = employeeServices;
-    const { data: employeesData, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery(["employees", debounced], ({ pageParam = 1 }) => fetchEmployees1(pageParam, debounced, requestPayload), {
+    const { data: employeesData, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery(["employees", debounced, requestPayload], ({ pageParam = 1 }) => fetchEmployees1(pageParam, debounced, requestPayload), {
         staleTime: 60000,
         getNextPageParam: (lastPage, allPages) => {
             return lastPage.length === 30 ? allPages.length + 1 : undefined
