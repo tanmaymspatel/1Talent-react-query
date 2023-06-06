@@ -1,12 +1,14 @@
 import { Stack, Checkbox } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { FilterFieldsContext } from "../../context/filterFieldsContext/filterFieldsContext";
 
 function EmployeeTypesFilter({ employeeTypesFields, setLocalFilterFields }: any) {
-    const [employementValue, setEmployementValue] = useState<string[]>([]);
+    const { employementState } = useContext<any>(FilterFieldsContext)
+    const { employementValue, setEmployementValue } = employementState
 
     const handleemployementTypeChange = (id: string) => {
         const updatedValues = employementValue.includes(id)
-            ? employementValue.filter((value) => value !== id)
+            ? employementValue.filter((value: any) => value !== id)
             : [...employementValue, id];
         setEmployementValue(updatedValues);
     }

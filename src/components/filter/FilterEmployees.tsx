@@ -5,8 +5,9 @@ import EmployeeTypesFilter from "./EmployeeTypesFilter";
 import DesignationsFilter from "./DesignationsFilter";
 import GendersFilter from "./GendersFilter";
 import DomainsFilter from "./DomainsFilter";
-import { useContext, useEffect, useState } from "react";
-import { FilterFieldsContext } from "../../context/filterContext/filterFieldsContext";
+import { useContext, useEffect } from "react";
+import { requestPayloadContext } from "../../context/requstPayloadContext/requestPayloadContext";
+import { FilterFieldsContext } from "../../context/filterFieldsContext/filterFieldsContext";
 
 const useStyle = createStyles((theme) => ({
     wrapper: {
@@ -23,30 +24,17 @@ const useStyle = createStyles((theme) => ({
     }
 }))
 
-const initialLocalFilterFields = {
-    designations: [],
-    domains: [],
-    employmentTypeId: [],
-    genders: [],
-    isPagination: true,
-    subDomains: []
-}
-
-function FilterEmployees({ setIsFilterBarOpen, filterFields }: any) {
+function FilterEmployees({ setIsFilterBarOpen, filterFields, isFilterFieldsEmpty, localFilterFields, setLocalFilterFields }: any) {
     const { classes } = useStyle();
     const { domainFields, employeeTypesFields, designationFields, genderFields } = filterFields;
-    const [localFilterFields, setLocalFilterFields] = useState<any>(initialLocalFilterFields);
-    const { setRequestPayLoad } = useContext<any>(FilterFieldsContext)
+    // const { localState } = useContext<any>(FilterFieldsContext)
+    // const { localFilterFields, setLocalFilterFields } = localState;
+    const { setRequestPayLoad } = useContext<any>(requestPayloadContext)
     const setRequestPayLoadOnApply = () => {
         setRequestPayLoad((prev: any) => { return { ...prev, filter: localFilterFields } })
-        setLocalFilterFields(localFilterFields)
+        // setLocalFilterFields(localFilterFields)
+        setIsFilterBarOpen(false)
     }
-    const isFilterFieldsEmpty =
-        !localFilterFields.designations.length
-        && !localFilterFields.domains.length
-        && !localFilterFields.employmentTypeId.length
-        && !localFilterFields.genders.length
-        && !localFilterFields.subDomains.length;
 
     useEffect(() => {
         console.log(localFilterFields);

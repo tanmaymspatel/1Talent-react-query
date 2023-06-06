@@ -1,13 +1,17 @@
 import { Stack, Checkbox } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
+import { FilterFieldsContext } from "../../context/filterFieldsContext/filterFieldsContext";
 
 function DomainsFilter({ domainFields, setLocalFilterFields }: any) {
-    const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
-    const [selectedSubDomains, setSelectedSubDomains] = useState<string[]>([]);
 
-    const handleDomainsChange = (id: any) => {
+    const { domainState, subDomainState } = useContext<any>(FilterFieldsContext)
+
+    const { selectedDomains, setSelectedDomains } = domainState
+    const { selectedSubDomains, setSelectedSubDomains } = subDomainState
+
+    const handleDomainsChange = (id: string) => {
         const updatedDomains = selectedDomains.includes(id)
-            ? selectedDomains.filter((val) => val !== id)
+            ? selectedDomains.filter((val: any) => val !== id)
             : [...selectedDomains, id];
         setSelectedDomains(updatedDomains);
 
@@ -22,15 +26,15 @@ function DomainsFilter({ domainFields, setLocalFilterFields }: any) {
                 .subDomains.map((subDomain: any) => subDomain.id);
             setSelectedSubDomains(
                 selectedSubDomains.filter(
-                    (subDomain) => !subItemsToRemove.includes(subDomain)
+                    (subDomain: any) => !subItemsToRemove.includes(subDomain)
                 )
             );
         }
     };
 
-    const handleSubDomainsChange = (id: any) => {
+    const handleSubDomainsChange = (id: string) => {
         const updatedSubDomains = selectedSubDomains.includes(id)
-            ? selectedSubDomains.filter((val) => val !== id)
+            ? selectedSubDomains.filter((val: any) => val !== id)
             : [...selectedSubDomains, id];
         setSelectedSubDomains(updatedSubDomains);
 
@@ -43,18 +47,18 @@ function DomainsFilter({ domainFields, setLocalFilterFields }: any) {
                 (subDomain: any) => subDomain.id
             );
             if (
-                updatedSubDomains.some((subDomain) =>
+                updatedSubDomains.some((subDomain: any) =>
                     subDomainsOfParent.includes(subDomain)
                 )
             ) {
-                setSelectedDomains((prevDomains) =>
+                setSelectedDomains((prevDomains: any) =>
                     prevDomains.includes(parentDomain.id)
                         ? prevDomains
                         : [...prevDomains, parentDomain.id]
                 );
             } else {
-                setSelectedDomains((prevDomains) =>
-                    prevDomains.filter((domain) => domain !== parentDomain.id)
+                setSelectedDomains((prevDomains: any) =>
+                    prevDomains.filter((domain: any) => domain !== parentDomain.id)
                 );
             }
         }
@@ -80,7 +84,7 @@ function DomainsFilter({ domainFields, setLocalFilterFields }: any) {
                             handleDomainsChange(domain?.id);
                         }}
                         indeterminate={
-                            selectedSubDomains.some((subDomain) =>
+                            selectedSubDomains.some((subDomain: any) =>
                                 domain.subDomains.map((sub: any) => sub.id).includes(subDomain)
                             ) && !selectedDomains?.includes(domain.id)
                         }

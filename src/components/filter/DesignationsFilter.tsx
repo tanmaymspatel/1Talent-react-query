@@ -1,12 +1,15 @@
 import { Stack, Checkbox } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { FilterFieldsContext } from "../../context/filterFieldsContext/filterFieldsContext";
 
 function DesignationsFilter({ designationFields, setLocalFilterFields }: any) {
-    const [designationsValue, setDesignationsValue] = useState<string[]>([]);
+
+    const { designationState } = useContext<any>(FilterFieldsContext)
+    const { designationsValue, setDesignationsValue } = designationState
 
     const handleDesignationsChange = (id: string) => {
         const updatedValues = designationsValue.includes(id)
-            ? designationsValue.filter((value) => value !== id)
+            ? designationsValue.filter((value: any) => value !== id)
             : [...designationsValue, id];
         setDesignationsValue(updatedValues);
     }

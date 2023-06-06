@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { FilterFieldsContext } from "./filterFieldsContext"
+import { requestPayloadContext } from "./requestPayloadContext"
 
 const initialPayLoad = {
     field: "Name",
@@ -14,11 +14,11 @@ const initialPayLoad = {
     }
 }
 
-interface IFilterFieldProviderProps {
+interface IRequestPayloadProviderProps {
     children: React.ReactNode;
 }
 
-function FilterFieldsContextProvider({ children }: IFilterFieldProviderProps) {
+function RequestPayloadContextProvider({ children }: IRequestPayloadProviderProps) {
 
     const [requestPayload, setRequestPayLoad] = useState<any>(initialPayLoad);
 
@@ -28,10 +28,10 @@ function FilterFieldsContextProvider({ children }: IFilterFieldProviderProps) {
     }
 
     return (
-        <FilterFieldsContext.Provider value={ctx}>
+        <requestPayloadContext.Provider value={ctx}>
             {children}
-        </FilterFieldsContext.Provider>
+        </requestPayloadContext.Provider>
     )
 }
 
-export default FilterFieldsContextProvider
+export default RequestPayloadContextProvider;

@@ -1,10 +1,9 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { initialPayLoad } from "../../shared/data/data";
 import employeeServices from "../../shared/services/employeeServices";
 import { DataContext } from "./dataContext";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useContext, useState } from "react";
-import { FilterFieldsContext } from "../filterContext/filterFieldsContext";
+import { requestPayloadContext } from "../requstPayloadContext/requestPayloadContext";
 
 interface IDataProviderProps {
     children: React.ReactNode;
@@ -12,7 +11,7 @@ interface IDataProviderProps {
 
 function DataContextProvider({ children }: IDataProviderProps) {
     const [search, setSearch] = useState<string>('')
-    const { requestPayload } = useContext<any>(FilterFieldsContext);
+    const { requestPayload } = useContext<any>(requestPayloadContext);
     const [debounced] = useDebouncedValue(search, 500)
     const { fetchEmployees1 } = employeeServices;
     const { data: employeesData, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery(["employees", debounced, requestPayload], ({ pageParam = 1 }) => fetchEmployees1(pageParam, debounced, requestPayload), {
