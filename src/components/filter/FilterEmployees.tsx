@@ -42,62 +42,19 @@ function FilterEmployees({ setIsFilterBarOpen, filterFields, isFilterFieldsEmpty
 
     return (
         <Group spacing={"xs"} className={classes.wrapper}>
-            <Menu>
-                <Menu.Target>
-                    <UnstyledButton p={"0.5rem"}>
-                        <Group spacing={3}>
-                            <Text>Employement Type</Text>
-                            <IconChevronDown size="1.25rem" />
-                        </Group>
-                    </UnstyledButton>
-                </Menu.Target>
-
-                <Menu.Dropdown className={classes.dropdown}>
-                    <EmployeeTypesFilter employeeTypesFields={employeeTypesFields} setLocalFilterFields={setLocalFilterFields} />
-                </Menu.Dropdown>
-            </Menu>
-            <Menu>
-                <Menu.Target>
-                    <UnstyledButton p={"0.5rem"}>
-                        <Group spacing={3}>
-                            <Text>Domains</Text>
-                            <IconChevronDown size="1.25rem" />
-                        </Group>
-                    </UnstyledButton>
-                </Menu.Target>
-
-                <Menu.Dropdown className={classes.dropdown}>
-                    <DomainsFilter domainFields={domainFields} setLocalFilterFields={setLocalFilterFields} />
-                </Menu.Dropdown>
-            </Menu>
-            <Menu>
-                <Menu.Target>
-                    <UnstyledButton p={"0.5rem"}>
-                        <Group spacing={3}>
-                            <Text>Designations</Text>
-                            <IconChevronDown size="1.25rem" />
-                        </Group>
-                    </UnstyledButton>
-                </Menu.Target>
-
-                <Menu.Dropdown className={classes.dropdown}>
-                    <DesignationsFilter designationFields={designationFields} setLocalFilterFields={setLocalFilterFields} />
-                </Menu.Dropdown>
-            </Menu>
-            <Menu>
-                <Menu.Target>
-                    <UnstyledButton p={"0.5rem"}>
-                        <Group spacing={3}>
-                            <Text>Gender</Text>
-                            <IconChevronDown size="1.25rem" />
-                        </Group>
-                    </UnstyledButton>
-                </Menu.Target>
-
-                <Menu.Dropdown className={classes.dropdown}>
-                    <GendersFilter genderFields={genderFields} setLocalFilterFields={setLocalFilterFields} />
-                </Menu.Dropdown>
-            </Menu>
+            <EmployeeTypesFilter
+                employeeTypesFields={employeeTypesFields}
+                setLocalFilterFields={setLocalFilterFields} />
+            <DomainsFilter
+                domainFields={domainFields}
+                setLocalFilterFields={setLocalFilterFields} />
+            <DesignationsFilter
+                designationFields={designationFields}
+                setLocalFilterFields={setLocalFilterFields}
+            />
+            <GendersFilter
+                genderFields={genderFields}
+                setLocalFilterFields={setLocalFilterFields} />
             <Divider orientation="vertical" />
             <Group spacing={6} p={"0.5rem"}>
                 <Button size="xs" disabled={isFilterFieldsEmpty} onClick={setRequestPayLoadOnApply}>Apply</Button>
@@ -107,4 +64,4 @@ function FilterEmployees({ setIsFilterBarOpen, filterFields, isFilterFieldsEmpty
     )
 }
 
-export default FilterEmployees
+export default FilterEmployees;

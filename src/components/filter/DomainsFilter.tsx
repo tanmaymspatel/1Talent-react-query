@@ -1,13 +1,24 @@
-import { Stack, Checkbox } from "@mantine/core";
+import { Stack, Checkbox, Group, Menu, UnstyledButton, createStyles, Text } from "@mantine/core";
 import { useContext, useEffect } from "react";
 import { FilterFieldsContext } from "../../context/filterFieldsContext/filterFieldsContext";
+import { IconChevronDown } from "@tabler/icons-react";
+import utilityServices from "../../shared/services/utilityServices";
+
+const useStyle = createStyles(() => ({
+    dropdown: {
+        maxHeight: "320px",
+        overflow: "auto",
+        padding: "1rem",
+    },
+}))
 
 function DomainsFilter({ domainFields, setLocalFilterFields }: any) {
 
-    const { domainState, subDomainState } = useContext<any>(FilterFieldsContext)
-
-    const { selectedDomains, setSelectedDomains } = domainState
-    const { selectedSubDomains, setSelectedSubDomains } = subDomainState
+    const { domainState, subDomainState } = useContext<any>(FilterFieldsContext);
+    const { selectedDomains, setSelectedDomains } = domainState;
+    const { selectedSubDomains, setSelectedSubDomains } = subDomainState;
+    const { classes } = useStyle();
+    const { setFilterLabel } = utilityServices;
 
     const handleDomainsChange = (id: string) => {
         const updatedDomains = selectedDomains.includes(id)
@@ -73,40 +84,52 @@ function DomainsFilter({ domainFields, setLocalFilterFields }: any) {
     }, [selectedDomains, selectedSubDomains]);
 
     return (
-        <Stack>
-            {domainFields?.data.map((domain: any) => (
-                <div key={domain?.id}>
-                    <Checkbox
-                        id={domain?.id}
-                        label={domain?.name}
-                        checked={selectedDomains?.includes(domain?.id)}
-                        onChange={() => {
-                            handleDomainsChange(domain?.id);
-                        }}
-                        indeterminate={
-                            selectedSubDomains.some((subDomain: any) =>
-                                domain.subDomains.map((sub: any) => sub.id).includes(subDomain)
-                            ) && !selectedDomains?.includes(domain.id)
-                        }
-                    />
-                    <Stack pl={"2rem"} spacing={4}>
-                        {domain.subDomains &&
-                            domain.subDomains.map((subDomain: any) => (
-                                <div key={subDomain?.id} style={{ paddingTop: "0.5rem" }}>
-                                    <Checkbox
-                                        value={subDomain?.id}
-                                        label={subDomain?.name}
-                                        checked={selectedSubDomains?.includes(subDomain?.id)}
-                                        onChange={() => {
-                                            handleSubDomainsChange(subDomain?.id);
-                                        }}
-                                    />
-                                </div>
-                            ))}
-                    </Stack>
-                </div>
-            ))}
-        </Stack>
+        <Menu>
+            <Menu.Target>
+                <UnstyledButton p={"0.5rem"}>
+                    <Group spacing={3}>
+                        <Text>{setFilterLabel(selectedDomains, domainFields, "Domains")}</Text>
+                        <IconChevronDown size="1.25rem" />
+                    </Group>
+                </UnstyledButton>
+            </Menu.Target>
+
+            <Menu.Dropdown className={classes.dropdown}>
+
+                <Stack>
+                    {domainFields?.data.map((domain: any) => (
+                        <div key={domain?.id}>
+                            <Checkbox
+                                id={domain?.id}
+                                label={domain?.name}
+                                checked={selectedDomains?.includes(domain?.id)}
+                                onChange={() => {
+                                    handleDomainsChange(domain?.id);
+                                }}
+                                indeterminate={
+                                    (domain?.subDomains?.length > 0 && !(domain?.subDomains?.length === selectedSubDomains?.length) && selectedSubDomains?.length > 0)
+                                }
+                            />
+                            <Stack pl={"2rem"} spacing={4}>
+                                {domain.subDomains &&
+                                    domain.subDomains.map((subDomain: any) => (
+                                        <div key={subDomain?.id} style={{ paddingTop: "0.5rem" }}>
+                                            <Checkbox
+                                                value={subDomain?.id}
+                                                label={subDomain?.name}
+                                                checked={selectedSubDomains?.includes(subDomain?.id)}
+                                                onChange={() => {
+                                                    handleSubDomainsChange(subDomain?.id);
+                                                }}
+                                            />
+                                        </div>
+                                    ))}
+                            </Stack>
+                        </div>
+                    ))}
+                </Stack>
+            </Menu.Dropdown>
+        </Menu>
     );
 }
 
