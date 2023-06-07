@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Employees from '../../pages/Employees';
 import { NoPageFound } from './NoPageFound';
-import EmployeeDetails from '../../components/employees/EmployeeDetails';
+import EmployeeDetails from '../../components/employeeDetails/EmployeeDetails';
 
 function Routing() {
     return (

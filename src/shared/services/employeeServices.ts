@@ -30,13 +30,29 @@ const getGenders = async () => {
     return res.data;
 }
 
+const getPersonalInfoById = async (id: string) => {
+    const res = await axios.get(`/users/${id}/personal-info`);
+    return res.data
+}
+const getMaritalInfoInfoById = async (id: string) => {
+    const res = await axios.get(`/users/${id}/marital-info`);
+    return res.data
+}
+const getEducationInfoInfoById = async (id: string) => {
+    const res = await axios.get(`/users/${id}/education-info`);
+    return res.data
+}
+
 const employeeServices = {
     fetchEmployees1,
     fetchEmployees2,
     getEmployeeTypes,
     getDomains,
     getDesignations,
-    getGenders
+    getGenders,
+    getPersonalInfoById,
+    getMaritalInfoInfoById,
+    getEducationInfoInfoById
 }
 
 export default employeeServices;
