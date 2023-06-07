@@ -11,10 +11,32 @@ const fetchEmployees2 = async (pageParam = 1) => {
     const res = await axios.get(`/employees?_page=${pageParam}&_limit=30`);
     return res.data;
 }
+// employement type
+const getEmployeeTypes = async () => {
+    const res = await axios.get('/employee-types');
+    return res.data;
+}
+
+const getDomains = async () => {
+    const res = await axios.get('/domains');
+    return res.data;
+}
+const getDesignations = async () => {
+    const res = await axios.get('/designations');
+    return res.data;
+}
+const getGenders = async () => {
+    const res = await axios.get('/genders');
+    return res.data;
+}
 
 const employeeServices = {
     fetchEmployees1,
-    fetchEmployees2
+    fetchEmployees2,
+    getEmployeeTypes,
+    getDomains,
+    getDesignations,
+    getGenders
 }
 
 export default employeeServices;

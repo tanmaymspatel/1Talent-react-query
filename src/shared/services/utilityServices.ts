@@ -19,10 +19,45 @@ const scrollToElementAfterBackClick = (isClicked: string, clickedId: string): vo
         document.querySelector(`.user-${clickedId}`)?.scrollIntoView();
     }
 }
+/**
+ * 
+ * @param selectedCategories checked categories tob e filter un form of array
+ * @param filterFields all the categories in form of object of name id
+ * @param defaultLabel 
+ * @returns 
+ */
+const setFilterLabel = (selectedCategories: any[], filterFields: any, defaultLabel: string) => {
+    let label: string = "";
+    selectedCategories.sort((a: any, b: any) => a - b);
+    switch (defaultLabel) {
+        case "Employment Type": {
+            const firstSelectedcategory = filterFields.data?.find((field: any) => (field?.employmentTypeId === selectedCategories[0]))
+            label = firstSelectedcategory?.employmentType;
+            break;
+        }
+        case "Domains":
+        case "Designations":
+        case "Gender": {
+            const firstSelectedcategory = filterFields.data?.find((field: any) => (field?.id === selectedCategories[0]))
+            label = firstSelectedcategory?.name;
+            break;
+        }
+        default:
+            break;
+    }
+    if (selectedCategories.length) {
+        if (selectedCategories.length > 1) {
+            return `${label} (+${selectedCategories.length - 1})`
+        }
+        return label;
+    }
+    return defaultLabel;
+}
 
 const utilityServices = {
     findFirstElementInViewPort,
-    scrollToElementAfterBackClick
+    scrollToElementAfterBackClick,
+    setFilterLabel
 }
 
 export default utilityServices;

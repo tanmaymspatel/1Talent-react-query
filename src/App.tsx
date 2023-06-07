@@ -5,8 +5,9 @@ import { InteractionType } from '@azure/msal-browser';
 
 import MainApp from './core/components/MainApp'
 import { useState } from 'react';
-import SearchContextProvider from './context/searchContext/SearchContextProvider';
 import DataContextProvider from './context/dataContext/DataContextProvider';
+import RequestPayloadContextProvider from './context/requstPayloadContext/requestPayloadContextProvider';
+import FilterFieldsContextProvider from './context/filterFieldsContext/FilterFieldsContextProvider';
 function App() {
 
   const queryClient = new QueryClient();
@@ -28,11 +29,15 @@ function App() {
   if (m_strUser != "") {
     return (
       <QueryClientProvider client={queryClient}>
-        <DataContextProvider>
-          <MainApp />
-        </DataContextProvider>
+        <RequestPayloadContextProvider>
+          <FilterFieldsContextProvider>
+            <DataContextProvider>
+              <MainApp />
+            </DataContextProvider>
+          </FilterFieldsContextProvider>
+        </RequestPayloadContextProvider>
         <ReactQueryDevtools initialIsOpen={false} />
-      </ QueryClientProvider>
+      </ QueryClientProvider >
     )
   }
   else return <>{render()}<div>Please wait...</div></>
