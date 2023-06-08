@@ -32,7 +32,7 @@ const getGenders = async () => {
 
 const getPersonalInfoById = async (id: string) => {
     const res = await axios.get(`/users/${id}/personal-info`);
-    return res.data
+    return res.data.data
 }
 const getMaritalInfoInfoById = async (id: string) => {
     const res = await axios.get(`/users/${id}/marital-info`);

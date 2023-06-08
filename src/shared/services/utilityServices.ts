@@ -54,10 +54,24 @@ const setFilterLabel = (selectedCategories: any[], filterFields: any, defaultLab
     return defaultLabel;
 }
 
+const getFormattedDate = (date: string) => {
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June", "July",
+        "August", "September", "October", "November", "December"
+    ];
+    const inputDate = new Date(date);
+    const day = inputDate.getDate();
+    const month = inputDate.getMonth();
+    const year = inputDate.getFullYear();
+    const outputDate = `${day} ${monthNames[month]}, ${year}`
+    return outputDate;
+}
+
 const utilityServices = {
     findFirstElementInViewPort,
     scrollToElementAfterBackClick,
-    setFilterLabel
+    setFilterLabel,
+    getFormattedDate
 }
 
 export default utilityServices;

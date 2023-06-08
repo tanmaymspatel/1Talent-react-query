@@ -5,6 +5,7 @@ import {
     IconLogout,
     IconUser,
 } from '@tabler/icons-react';
+import { NavLink } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -60,7 +61,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const data = [
-    { link: '', label: 'Employees', icon: IconUser },
+    { link: '/employees', label: 'Employees', icon: IconUser },
 ];
 
 function Sidebar() {
@@ -68,18 +69,15 @@ function Sidebar() {
     const [active, setActive] = useState('Employees');
 
     const links = data.map((item) => (
-        <a
+        <NavLink
+            to={item.link}
             className={cx(classes.link, { [classes.linkActive]: item.label === active })}
-            href={item.link}
             key={item.label}
-            onClick={(event) => {
-                event.preventDefault();
-                setActive(item.label);
-            }}
+            onClick={() => setActive(item.label)}
         >
             <item.icon className={classes.linkIcon} stroke={1.5} />
             <span>{item.label}</span>
-        </a>
+        </NavLink>
     ));
 
     return (
