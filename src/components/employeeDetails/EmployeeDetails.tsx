@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom"
-import employeeServices from "../../shared/services/employeeServices";
+import { Card, Grid, Stack, createStyles } from "@mantine/core";
 import PersonalInfo from "./PersonalInfo";
-import { Card, Grid, SimpleGrid, Stack, createStyles } from "@mantine/core";
-import EmployeesContent from "../employees/EmployeesContent";
-import EmployeesHeader from "../employees/EmployeesHeader";
+
+import employeeServices from "../../shared/services/employeeServices";
 import EmployeeDetailsHeader from "./EmployeeDetailsHeader";
 
 
@@ -22,24 +21,22 @@ const useStyle = createStyles(() => ({
 
 function EmployeeDetails() {
     const { classes } = useStyle();
+    const { getPersonalInfoById } = employeeServices;
     const { id } = useParams();
-    // const { data: maritalInfo } = useQuery(['marital-info', id], () => getMaritalInfoInfoById(id as string), {
-    //     staleTime: 60000
-    // })
-    // const { data: educationInfo } = useQuery(['education-info', id], () => getEducationInfoInfoById(id as string), {
-    //     staleTime: 60000
-    // })
+    const { data: personaInfo } = useQuery(['personal-info', id], () => getPersonalInfoById(id as string), {
+        staleTime: 60000,
+    })
 
     return (
         <Stack h={"100%"} spacing={0}>
             <header className={classes.header}>
-                <EmployeeDetailsHeader />
+                <EmployeeDetailsHeader employeeName={personaInfo?.name} />
             </header>
             <main id="main" className={classes.main}>
                 <Grid>
                     <Grid.Col lg={9}>
                         <Card radius="md">
-                            <PersonalInfo id={id} />
+                            <PersonalInfo personaInfo={personaInfo} />
                         </Card>
                     </Grid.Col>
                     <Grid.Col lg={3}>
@@ -54,4 +51,4 @@ function EmployeeDetails() {
     )
 }
 
-export default EmployeeDetails
+export default EmployeeDetails;

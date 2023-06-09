@@ -1,5 +1,4 @@
-import { Button, Divider, Group, Menu, Text, UnstyledButton, createStyles } from "@mantine/core"
-import { IconChevronDown } from "@tabler/icons-react"
+import { Button, Divider, Group, createStyles } from "@mantine/core"
 
 import EmployeeTypesFilter from "./EmployeeTypesFilter";
 import DesignationsFilter from "./DesignationsFilter";
@@ -7,7 +6,6 @@ import GendersFilter from "./GendersFilter";
 import DomainsFilter from "./DomainsFilter";
 import { useContext, useEffect } from "react";
 import { requestPayloadContext } from "../../context/requstPayloadContext/requestPayloadContext";
-import { FilterFieldsContext } from "../../context/filterFieldsContext/filterFieldsContext";
 
 const useStyle = createStyles((theme) => ({
     wrapper: {
@@ -23,22 +21,22 @@ const useStyle = createStyles((theme) => ({
         padding: "1rem"
     }
 }))
-
+/**
+ * @returns A filter bar for filtering the list
+ */
 function FilterEmployees({ setIsFilterBarOpen, filterFields, isFilterFieldsEmpty, localFilterFields, setLocalFilterFields }: any) {
     const { classes } = useStyle();
     const { domainFields, employeeTypesFields, designationFields, genderFields } = filterFields;
-    // const { localState } = useContext<any>(FilterFieldsContext)
-    // const { localFilterFields, setLocalFilterFields } = localState;
-    const { setRequestPayLoad } = useContext<any>(requestPayloadContext)
+    /** Method to set the filter obbject for the post call request body */
+    const { setRequestPayLoad } = useContext<any>(requestPayloadContext);
+    /**
+     * @name setRequestPayLoadOnApply
+     * @description To set the local checked filter fields to the request body which is to be used in post call
+     */
     const setRequestPayLoadOnApply = () => {
         setRequestPayLoad((prev: any) => { return { ...prev, filter: localFilterFields } })
-        // setLocalFilterFields(localFilterFields)
         setIsFilterBarOpen(false)
     }
-
-    useEffect(() => {
-        console.log(localFilterFields);
-    }, [localFilterFields])
 
     return (
         <Group spacing={"xs"} className={classes.wrapper}>

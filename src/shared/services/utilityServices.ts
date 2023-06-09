@@ -11,8 +11,8 @@ const findFirstElementInViewPort = (elements: any, mainContentYOffset: any) =>
 /**
  * @name scrollToElementAfterBackClick
  * @description This method is used to preserve scroll after hitting back button
- * @param isClicked 
- * @param clickedId 
+ * @param isClicked if the employee record is clicked or not
+ * @param clickedId id of the clicked employee record
  */
 const scrollToElementAfterBackClick = (isClicked: string, clickedId: string): void => {
     if (isClicked === "true") {
@@ -20,11 +20,12 @@ const scrollToElementAfterBackClick = (isClicked: string, clickedId: string): vo
     }
 }
 /**
- * 
+ * @name setFilterLabel
  * @param selectedCategories checked categories tob e filter un form of array
  * @param filterFields all the categories in form of object of name id
- * @param defaultLabel 
- * @returns 
+ * @param defaultLabel label of the filter type and default value of the default type
+ * @description used to print the label of the filter category, value changes if cheched field changes and the default value will be name of the category
+ * @returns label of the filter category
  */
 const setFilterLabel = (selectedCategories: any[], filterFields: any, defaultLabel: string) => {
     let label: string = "";
@@ -53,7 +54,12 @@ const setFilterLabel = (selectedCategories: any[], filterFields: any, defaultLab
     }
     return defaultLabel;
 }
-
+/**
+ * @name getFormattedDate
+ * @description For converting the input date into desired format
+ * @param date the input date in form of undirable format
+ * @returns the date value in the desired format
+ */
 const getFormattedDate = (date: string) => {
     const monthNames = [
         "January", "February", "March", "April", "May", "June", "July",

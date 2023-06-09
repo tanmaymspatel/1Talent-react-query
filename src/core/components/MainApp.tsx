@@ -45,7 +45,6 @@ function MainApp() {
                                 mr="xl"
                             />
                         </MediaQuery>
-
                         <Title order={3}>1Rivet</Title>
                     </div>
                 </Header>

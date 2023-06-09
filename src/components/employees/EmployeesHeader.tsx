@@ -7,8 +7,6 @@ interface IEmployeesHeader {
     setView: React.Dispatch<React.SetStateAction<string>>,
     view: string
 }
-
-
 function EmployeesHeader({ setView, view }: IEmployeesHeader) {
     const { domainFields, designationFields, employeeTypesFields, genderFields } = useFetchFilterFields();
 

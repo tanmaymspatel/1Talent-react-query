@@ -18,6 +18,16 @@ const msalConfig = {
   }
 }
 
+const theme = {
+  breakpoints: {
+    xs: '30em',
+    sm: '36em',
+    md: '48em',
+    lg: '62em',
+    xl: '75em',
+  }
+}
+
 const pca = new PublicClientApplication(msalConfig);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -25,15 +35,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <BrowserRouter>
       <Interceptor >
         <MantineProvider
-          theme={{
-            breakpoints: {
-              xs: '30em',
-              sm: '36em',
-              md: '48em',
-              lg: '62em',
-              xl: '75em',
-            }
-          }}>
+          theme={theme}>
           <GlobalStyles />
           <App />
         </MantineProvider>

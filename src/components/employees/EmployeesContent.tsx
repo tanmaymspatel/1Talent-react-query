@@ -1,16 +1,19 @@
-import { useEffect, useMemo, useRef, useLayoutEffect, useState, useContext } from 'react'
+import { useEffect, useMemo, useRef, useLayoutEffect, useContext } from 'react'
 
 import EmployeesCard from "./EmployeesCard";
 import EmployeesTable from "./EmployeesTable";
 import utilityServices from "../../shared/services/utilityServices";
-import { DataContext } from "../../context/dataContext/dataContext";
+import useFetchEmployeesData from '../../hooks/useFetchEmployeesData';
+import { requestPayloadContext } from '../../context/requstPayloadContext/requestPayloadContext';
+import { SearchContext } from '../../context/searchContext/searchContext';
 
 function EmployeesContent({ isGridView, view }: any) {
 
     const containerRef = useRef<any>();
     const { findFirstElementInViewPort, scrollToElementAfterBackClick } = utilityServices;
-    const { employeesData, isLoading, hasNextPage, fetchNextPage } = useContext<any>(DataContext)
-
+    const { requestPayload } = useContext<any>(requestPayloadContext);
+    const { debounced } = useContext<any>(SearchContext)
+    const { data: employeesData, isLoading, hasNextPage, fetchNextPage } = useFetchEmployeesData(debounced, requestPayload)
     const mainContainerRef = document.getElementById("main")
     const mainContentYOffset: any = mainContainerRef?.getBoundingClientRect().y
     const isClicked = localStorage.getItem("isClicked") || "false";

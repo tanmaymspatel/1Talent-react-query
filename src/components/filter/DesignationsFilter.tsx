@@ -26,7 +26,6 @@ function DesignationsFilter({ designationFields, setLocalFilterFields }: any) {
         setDesignationsValue(updatedValues);
     }
     useEffect(() => {
-        // console.log(designationsValue);
         setLocalFilterFields((prev: any) => { return { ...prev, designations: designationsValue } })
     }, [designationsValue])
     return (
