@@ -4,7 +4,7 @@ import { FilterFieldsContext } from "./filterFieldsContext"
 interface IFilterFieldsProviderProps {
     children: React.ReactNode;
 }
-
+/** Initial filter object, if no filters are applied */
 const initialLocalFilterFields = {
     designations: [],
     domains: [],
@@ -13,6 +13,9 @@ const initialLocalFilterFields = {
     isPagination: true,
     subDomains: []
 }
+/**
+ * @returns states of the filter 
+ */
 function FilterFieldsContextProvider({ children }: IFilterFieldsProviderProps) {
 
     const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
@@ -38,4 +41,4 @@ function FilterFieldsContextProvider({ children }: IFilterFieldsProviderProps) {
     )
 }
 
-export default FilterFieldsContextProvider
+export default FilterFieldsContextProvider;

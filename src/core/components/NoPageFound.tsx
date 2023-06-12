@@ -5,16 +5,13 @@ const useStyles = createStyles((theme) => ({
         paddingTop: rem(80),
         paddingBottom: rem(80),
     },
-
     inner: {
         position: 'relative',
     },
-
     image: {
         ...theme.fn.cover(),
         opacity: 0.75,
     },
-
     content: {
         paddingTop: rem(220),
         position: 'relative',
@@ -24,7 +21,6 @@ const useStyles = createStyles((theme) => ({
             paddingTop: rem(120),
         },
     },
-
     title: {
         fontFamily: `Greycliff CF, ${theme.fontFamily}`,
         textAlign: 'center',
@@ -35,7 +31,6 @@ const useStyles = createStyles((theme) => ({
             fontSize: rem(32),
         },
     },
-
     description: {
         maxWidth: rem(540),
         margin: 'auto',
@@ -43,8 +38,10 @@ const useStyles = createStyles((theme) => ({
         marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
     },
 }));
-
-export function NoPageFound() {
+/**
+ * @returns No page found component, if the route does not match 
+ */
+function NoPageFound() {
     const { classes } = useStyles();
 
     return (
@@ -56,11 +53,10 @@ export function NoPageFound() {
                         Page you are trying to open does not exist. You may have mistyped the address, or the
                         page has been moved to another URL. If you think this is an error contact support.
                     </Text>
-                    {/* <Group position="center">
-                        <Button size="md">Take me back to home page</Button>
-                    </Group> */}
                 </div>
             </div>
         </Container>
     );
 }
+
+export default NoPageFound;

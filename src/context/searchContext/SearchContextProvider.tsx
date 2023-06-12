@@ -5,11 +5,12 @@ import { SearchContext } from "./searchContext";
 interface IDataProviderProps {
     children: React.ReactNode;
 }
-
+/**
+ * @returns State for the search functionality 
+ */
 function SearchContextProvider({ children }: IDataProviderProps) {
     const [search, setSearch] = useState<string>('')
     const [debounced] = useDebouncedValue(search, 500)
-
     const dataCtx = {
         search,
         setSearch,
@@ -23,5 +24,5 @@ function SearchContextProvider({ children }: IDataProviderProps) {
     )
 }
 
-export default SearchContextProvider
+export default SearchContextProvider;
 

@@ -1,10 +1,10 @@
 import { Button, Divider, Group, createStyles } from "@mantine/core"
+import { useContext } from "react";
 
 import EmployeeTypesFilter from "./EmployeeTypesFilter";
 import DesignationsFilter from "./DesignationsFilter";
 import GendersFilter from "./GendersFilter";
 import DomainsFilter from "./DomainsFilter";
-import { useContext, useEffect } from "react";
 import { requestPayloadContext } from "../../context/requstPayloadContext/requestPayloadContext";
 
 const useStyle = createStyles((theme) => ({

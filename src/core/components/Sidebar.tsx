@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { createStyles, Navbar, Group, Code, getStylesRef, rem } from '@mantine/core';
+import { createStyles, Navbar, getStylesRef, rem } from '@mantine/core';
 import {
     IconSwitchHorizontal,
     IconLogout,
@@ -14,14 +14,12 @@ const useStyles = createStyles((theme) => ({
         borderBottom: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
             }`,
     },
-
     footer: {
         paddingTop: theme.spacing.md,
         marginTop: theme.spacing.md,
         borderTop: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
             }`,
     },
-
     link: {
         ...theme.fn.focusStyles(),
         display: 'flex',
@@ -32,7 +30,6 @@ const useStyles = createStyles((theme) => ({
         padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
         borderRadius: theme.radius.sm,
         fontWeight: 500,
-
         '&:hover': {
             backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
             color: theme.colorScheme === 'dark' ? theme.white : theme.black,
@@ -42,13 +39,11 @@ const useStyles = createStyles((theme) => ({
             },
         },
     },
-
     linkIcon: {
         ref: getStylesRef('icon'),
         color: theme.colorScheme === 'dark' ? theme.colors.dark[2] : theme.colors.gray[6],
         marginRight: theme.spacing.sm,
     },
-
     linkActive: {
         '&, &:hover': {
             backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background,
@@ -63,7 +58,9 @@ const useStyles = createStyles((theme) => ({
 const data = [
     { link: '/employees', label: 'Employees', icon: IconUser },
 ];
-
+/**
+ * @returns Side bar of the application
+ */
 function Sidebar() {
     const { classes, cx } = useStyles();
     const [active, setActive] = useState('Employees');

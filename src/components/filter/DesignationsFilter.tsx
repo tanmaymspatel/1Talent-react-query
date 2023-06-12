@@ -1,5 +1,6 @@
 import { Stack, Checkbox, Group, Menu, UnstyledButton, Text, createStyles } from "@mantine/core";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
+
 import { FilterFieldsContext } from "../../context/filterFieldsContext/filterFieldsContext";
 import { IconChevronDown } from "@tabler/icons-react";
 import utilityServices from "../../shared/services/utilityServices";
@@ -11,23 +12,32 @@ const useStyle = createStyles(() => ({
         padding: "1rem",
     },
 }))
-
+/**
+ * @returns functionality to filter data by designations
+ */
 function DesignationsFilter({ designationFields, setLocalFilterFields }: any) {
 
-    const { designationState } = useContext<any>(FilterFieldsContext)
+    /** State for storing the checked designation fields in the context */
+    const { designationState } = useContext<any>(FilterFieldsContext);
     const { designationsValue, setDesignationsValue } = designationState;
     const { classes } = useStyle();
     const { setFilterLabel } = utilityServices;
-
+    /**
+     * @name handleDesignationsChange
+     * @description To store the checked values 
+     * @param id id of the checked element
+     */
     const handleDesignationsChange = (id: string) => {
         const updatedValues = designationsValue.includes(id)
             ? designationsValue.filter((value: any) => value !== id)
             : [...designationsValue, id];
         setDesignationsValue(updatedValues);
     }
+    /** Set the local filter fields if there is any change in the checked values of the designations */
     useEffect(() => {
         setLocalFilterFields((prev: any) => { return { ...prev, designations: designationsValue } })
     }, [designationsValue])
+
     return (
         <Menu>
             <Menu.Target>
@@ -40,7 +50,6 @@ function DesignationsFilter({ designationFields, setLocalFilterFields }: any) {
             </Menu.Target>
 
             <Menu.Dropdown className={classes.dropdown}>
-
                 <Stack>
                     {
                         designationFields?.data.map((designation: any) => {
@@ -59,4 +68,4 @@ function DesignationsFilter({ designationFields, setLocalFilterFields }: any) {
     )
 }
 
-export default DesignationsFilter
+export default DesignationsFilter;

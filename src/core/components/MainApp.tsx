@@ -10,7 +10,9 @@ import {
 } from '@mantine/core';
 import Sidebar from './Sidebar';
 import Routing from './Routing';
-
+/**
+ * @returns main application structure including header, sidebar and routing 
+ */
 function MainApp() {
     const theme = useMantineTheme();
     const [opened, setOpened] = useState(false);

@@ -37,7 +37,7 @@ const SingleEmployeeCard = React.forwardRef(({ employee }: any, ref: any) => {
         localStorage.setItem("isClicked", "true");
         localStorage.setItem("clickedId", employee?.userId);
     }
-    //details od domain and sub-domain
+    /** details of domain and sub-domain */
     const getEmployeeDomainAndSubDomain = employee.domainWithSubDomain.name !== null
         ? <>
             <span> {employee.domainWithSubDomain.name}</span>
@@ -90,7 +90,7 @@ const SingleEmployeeCard = React.forwardRef(({ employee }: any, ref: any) => {
             </Card.Section>
         </>
     )
-    // if ref is there (last element is the list) then attach the ref to the element
+    /** if ref is there (last element is the list) then attach the ref to the element */
     const content = ref
         ? <Card ref={ref} shadow="sm" padding="lg" radius="md" withBorder className={cx(`user-${employee?.userId}`, classes.card)} data-item="true">{body}</Card>
         : <Card shadow="sm" padding="lg" radius="md" withBorder className={cx(`user-${employee?.userId}`, classes.card)} data-item="true">{body}</Card>

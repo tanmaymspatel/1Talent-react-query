@@ -12,21 +12,27 @@ const useStyle = createStyles((theme) => ({
         backgroundColor: theme.white
     }
 }))
-
+/**
+ * @returns data of the employees in table form
+ */
 function EmployeesTable({ dataProps }: any) {
     const { employeesData, hasNextPage, fetchNextPage } = dataProps;
+    /**
+     * ref - ref to be added on the last element
+     * inview - To check, if the reference element is in the view port or not
+     */
     const { ref, inView } = useInView();
-    const { classes } = useStyle()
+    const { classes } = useStyle();
 
     const rows = employeesData?.pages?.map((page: IEmployeeDetails[]) => (
         page.map((employee: IEmployeeDetails, index: number) => {
-            if (index === 29) {
+            if (index === 29) { // if the view reaches to the last element the ref will be added to that element
                 return <SingleEmployeeRow ref={ref} key={employee.userId} employee={employee} />
             }
             return <SingleEmployeeRow key={employee.userId} employee={employee} />
         })
     ))
-
+    /** fetching the data of the next page, if any */
     useEffect(() => {
         if (inView && hasNextPage) {
             fetchNextPage();

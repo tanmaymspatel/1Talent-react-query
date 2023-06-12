@@ -7,6 +7,9 @@ interface IEmployeesHeader {
     setView: React.Dispatch<React.SetStateAction<string>>,
     view: string
 }
+/**
+ * @returns Header of the employee page
+ */
 function EmployeesHeader({ setView, view }: IEmployeesHeader) {
     const { domainFields, designationFields, employeeTypesFields, genderFields } = useFetchFilterFields();
 

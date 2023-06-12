@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { requestPayloadContext } from "./requestPayloadContext"
-
+/** Initial request body for the put call */
 const initialPayLoad = {
     field: "Name",
     order: "asc",
@@ -17,7 +17,9 @@ const initialPayLoad = {
 interface IRequestPayloadProviderProps {
     children: React.ReactNode;
 }
-
+/**
+ * @returns State for the requst body payload
+ */
 function RequestPayloadContextProvider({ children }: IRequestPayloadProviderProps) {
 
     const [requestPayload, setRequestPayLoad] = useState<any>(initialPayLoad);
