@@ -11,15 +11,22 @@ const useStyle = createStyles(() => ({
         padding: "1rem",
     },
 }))
-
+/**
+ * @returns functionality to filter data by domain names
+ */
 function DomainsFilter({ domainFields, setLocalFilterFields }: any) {
 
+    /** State for storing the checked domain and sub domain fields in the context */
     const { domainState, subDomainState } = useContext<any>(FilterFieldsContext);
     const { selectedDomains, setSelectedDomains } = domainState;
     const { selectedSubDomains, setSelectedSubDomains } = subDomainState;
     const { classes } = useStyle();
     const { setFilterLabel } = utilityServices;
-
+    /**
+     * @name handleDomainsChange
+     * @description To store the checked values 
+     * @param id id of the checked element
+     */
     const handleDomainsChange = (id: string) => {
         const updatedDomains = selectedDomains.includes(id)
             ? selectedDomains.filter((val: any) => val !== id)
@@ -27,22 +34,26 @@ function DomainsFilter({ domainFields, setLocalFilterFields }: any) {
         setSelectedDomains(updatedDomains);
 
         if (!selectedDomains.includes(id)) {
-            const subItemsToAdd = domainFields.data
+            const subDomainsToAdd = domainFields.data
                 .find((domain: any) => domain.id === id)
                 .subDomains.map((subDomain: any) => subDomain.id);
-            setSelectedSubDomains([...selectedSubDomains, ...subItemsToAdd]);
+            setSelectedSubDomains([...selectedSubDomains, ...subDomainsToAdd]);
         } else {
-            const subItemsToRemove = domainFields.data
+            const subDomainsToRemove = domainFields.data
                 .find((domain: any) => domain.id === id)
                 .subDomains.map((subDomain: any) => subDomain.id);
             setSelectedSubDomains(
                 selectedSubDomains.filter(
-                    (subDomain: any) => !subItemsToRemove.includes(subDomain)
+                    (subDomain: any) => !subDomainsToRemove.includes(subDomain)
                 )
             );
         }
     };
-
+    /**
+     * @name handleSubDomainsChange
+     * @description To store the checked values 
+     * @param id id of the checked element
+     */
     const handleSubDomainsChange = (id: string) => {
         const updatedSubDomains = selectedSubDomains.includes(id)
             ? selectedSubDomains.filter((val: any) => val !== id)
@@ -74,7 +85,7 @@ function DomainsFilter({ domainFields, setLocalFilterFields }: any) {
             }
         }
     };
-
+    /** Set the local filter fields if there is any change in the checked values of the domains or subdomains */
     useEffect(() => {
         setLocalFilterFields((prev: any) => ({
             ...prev,
@@ -95,7 +106,6 @@ function DomainsFilter({ domainFields, setLocalFilterFields }: any) {
             </Menu.Target>
 
             <Menu.Dropdown className={classes.dropdown}>
-
                 <Stack>
                     {domainFields?.data.map((domain: any) => (
                         <div key={domain?.id}>

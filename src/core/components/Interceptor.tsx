@@ -2,7 +2,9 @@ import { InteractionRequiredAuthError, InteractionStatus } from "@azure/msal-bro
 import { useMsal } from "@azure/msal-react";
 import axios from "axios"
 import { useEffect } from "react";
-
+/**
+ * @returns Interceptor for adding access token to the headers
+ */
 function Interceptor(props: any) {
 
     const { instance, inProgress, accounts } = useMsal();
@@ -18,8 +20,6 @@ function Interceptor(props: any) {
                 .then((accessTokenResponse) => {
                     // Acquire token silent success
                     localStorage.setItem("accessToken", (accessTokenResponse.accessToken));
-
-
                 })
                 .catch((error) => {
                     if (error instanceof InteractionRequiredAuthError) {
@@ -31,7 +31,6 @@ function Interceptor(props: any) {
     }, [instance, accounts, inProgress]);
 
     const ACCESS_TOKEN = localStorage.getItem("accessToken")
-    // axios.defaults.baseURL = "https://dev-1talent-api.azurewebsites.net/api";
     axios.defaults.baseURL = "https://dev-1talent-api.azurewebsites.net/api";
     axios.interceptors.request.use((request: any) => {
         request.headers.Author = 'Tanmay Patel'
@@ -43,4 +42,4 @@ function Interceptor(props: any) {
 }
 
 
-export default Interceptor
+export default Interceptor;

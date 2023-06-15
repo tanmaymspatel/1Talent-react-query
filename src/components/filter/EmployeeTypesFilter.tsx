@@ -11,20 +11,27 @@ const useStyle = createStyles(() => ({
         padding: "1rem",
     },
 }))
-
+/**
+ * @returns A dropdown for filtering data by employment type
+ */
 function EmployeeTypesFilter({ employeeTypesFields, setLocalFilterFields }: any) {
-    const { employementState } = useContext<any>(FilterFieldsContext)
+    /** Loacl employmet type state for storing checked types */
+    const { employementState } = useContext<any>(FilterFieldsContext);
     const { employementValue, setEmployementValue } = employementState;
     const { classes } = useStyle();
     const { setFilterLabel } = utilityServices;
-
-
-    const handleemployementTypeChange = (id: string) => {
+    /**
+     * @name handleEmployementTypeChange
+     * @description storing the checked fields in the array
+     * @param id id of the checked type
+     */
+    const handleEmployementTypeChange = (id: string) => {
         const updatedValues = employementValue.includes(id)
             ? employementValue.filter((value: any) => value !== id)
             : [...employementValue, id];
         setEmployementValue(updatedValues);
     }
+    /** setting the local filter fields modifying the value of checked emplyment type array*/
     useEffect(() => {
         setLocalFilterFields((prev: any) => { return { ...prev, employmentTypeId: employementValue } })
     }, [employementValue])
@@ -47,15 +54,14 @@ function EmployeeTypesFilter({ employeeTypesFields, setLocalFilterFields }: any)
                                 value={type?.employmentTypeId}
                                 label={type?.employmentType}
                                 checked={employementValue.includes(type?.employmentTypeId)}
-                                onChange={() => handleemployementTypeChange(type?.employmentTypeId)}
+                                onChange={() => handleEmployementTypeChange(type?.employmentTypeId)}
                             />
                         })
                     }
-
                 </Stack>
             </Menu.Dropdown>
         </Menu>
     )
 }
 
-export default EmployeeTypesFilter
+export default EmployeeTypesFilter;

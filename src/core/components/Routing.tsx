@@ -1,8 +1,11 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import Employees from '../../pages/Employees';
-import { NoPageFound } from './NoPageFound';
-import EmployeeDetails from '../../components/employees/EmployeeDetails';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
+import Employees from '../../pages/Employees';
+import NoPageFound from './NoPageFound';
+import EmployeeDetails from '../../components/employeeDetails/EmployeeDetails';
+/**
+ * @returns Routing for the application
+ */
 function Routing() {
     return (
         <Routes>

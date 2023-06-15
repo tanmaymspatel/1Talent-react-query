@@ -15,12 +15,14 @@ const useStyle = createStyles(() => ({
         overflowX: "hidden",
     }
 }))
-
+/**
+ * @returns Employee page with toggle view functionality
+ */
 function Employees() {
 
     const currentView = localStorage.getItem('currentView') as string || 'grid';
     const { classes } = useStyle();
-    const [view, setView] = useState<string>(currentView)
+    const [view, setView] = useState<string>(currentView);
     const isGridView = view === 'grid';
 
     useEffect(() => {

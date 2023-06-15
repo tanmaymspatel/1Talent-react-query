@@ -2,12 +2,13 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useMsal, useMsalAuthentication } from '@azure/msal-react';
 import { InteractionType } from '@azure/msal-browser';
+import { useState } from 'react';
 
 import MainApp from './core/components/MainApp'
-import { useState } from 'react';
-import DataContextProvider from './context/dataContext/DataContextProvider';
-import RequestPayloadContextProvider from './context/requstPayloadContext/requestPayloadContextProvider';
 import FilterFieldsContextProvider from './context/filterFieldsContext/FilterFieldsContextProvider';
+import SearchContextProvider from './context/searchContext/SearchContextProvider';
+import RequestPayloadContextProvider from './context/requstPayloadContext/RequestPayloadContextProvider';
+
 function App() {
 
   const queryClient = new QueryClient();
@@ -31,9 +32,9 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <RequestPayloadContextProvider>
           <FilterFieldsContextProvider>
-            <DataContextProvider>
+            <SearchContextProvider>
               <MainApp />
-            </DataContextProvider>
+            </SearchContextProvider>
           </FilterFieldsContextProvider>
         </RequestPayloadContextProvider>
         <ReactQueryDevtools initialIsOpen={false} />

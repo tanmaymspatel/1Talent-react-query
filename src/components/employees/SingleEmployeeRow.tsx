@@ -16,7 +16,7 @@ const SingleEmployeeRow = React.forwardRef(({ employee }: any, ref: any) => {
         localStorage.setItem("isClicked", "true");
         localStorage.setItem("clickedId", employee?.userId);
     }
-
+    /** Details of domain and sub domain */
     const getEmployeeDomainAndSubDomain = employee.domainWithSubDomain.name !== null
         ? <>
             <span> {employee.domainWithSubDomain.name}</span>
@@ -38,7 +38,7 @@ const SingleEmployeeRow = React.forwardRef(({ employee }: any, ref: any) => {
         </>
     )
 
-    const content = ref
+    const content = ref /** ref is added if the element is the last in the viewport */
         ? <tr ref={ref} className={`user-${employee?.userId}`} data-item="true">{body}</tr>
         : <tr className={`user-${employee?.userId}`} data-item="true">{body}</tr>
 

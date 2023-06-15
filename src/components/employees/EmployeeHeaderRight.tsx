@@ -1,9 +1,10 @@
 import { useContext, useState } from 'react'
 import { Group, Input, SegmentedControl, ThemeIcon, UnstyledButton, createStyles, useMantineTheme } from "@mantine/core";
 import { IconListDetails, IconLayoutGrid, IconSearch, IconFilter } from "@tabler/icons-react";
-import { DataContext } from '../../context/dataContext/dataContext';
+
 import FilterEmployees from '../filter/FilterEmployees';
 import { FilterFieldsContext } from '../../context/filterFieldsContext/filterFieldsContext';
+import { SearchContext } from '../../context/searchContext/searchContext';
 
 interface IEmployeeHeaderRightProps {
     view: string,
@@ -33,6 +34,7 @@ const useStyle = createStyles((theme) => ({
     }
 }))
 
+/** data for the view switching functionality */
 const segmentData = [
     {
         label: (<IconListDetails size="1.25rem" stroke={2.5} />),
@@ -43,18 +45,27 @@ const segmentData = [
         value: 'grid'
     },
 ]
-
+/**
+ * @returns right side section of the header 
+ */
 function EmployeeHeaderRight({ view, setView, filterFields }: IEmployeeHeaderRightProps) {
     const { classes } = useStyle();
     const theme = useMantineTheme();
+    /**
+     * @name changeView
+     * @description Method to change the view 
+     */
     const changeView = () => {
         setView(view => view === 'grid' ? 'list' : 'grid')
     }
-    const { search, setSearch } = useContext<any>(DataContext);
+    const { search, setSearch } = useContext<any>(SearchContext);
+    /** To determine whether the search bar is open */
     const [isFilterBarOpen, setIsFilterBarOpen] = useState<boolean>(false);
-    const { localState } = useContext<any>(FilterFieldsContext)
+    /** Local state for storing the data of the filter fields which is checked or unchecked */
+    const { localState } = useContext<any>(FilterFieldsContext);
+    /** object to store the local changes in the filter field */
     const { localFilterFields, setLocalFilterFields } = localState;
-
+    /** To check if all the filter fields are unchecked */
     const isFilterFieldsEmpty =
         !localFilterFields.designations.length
         && !localFilterFields.domains.length
@@ -84,7 +95,6 @@ function EmployeeHeaderRight({ view, setView, filterFields }: IEmployeeHeaderRig
                         value={view}
                         onChange={changeView}
                         classNames={{
-                            // label: classes.label,
                             root: classes.root
                         }}
                         data={segmentData}
