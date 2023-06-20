@@ -1,5 +1,5 @@
 import { Stack, Checkbox, Group, Menu, UnstyledButton, Text, createStyles } from "@mantine/core";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { FilterFieldsContext } from "../../context/filterFieldsContext/filterFieldsContext";
 import { IconChevronDown } from "@tabler/icons-react";
 import utilityServices from "../../shared/services/utilityServices";
