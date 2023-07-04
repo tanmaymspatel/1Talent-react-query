@@ -2,7 +2,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useMsal, useMsalAuthentication } from '@azure/msal-react';
 import { InteractionRequiredAuthError, InteractionStatus, InteractionType } from '@azure/msal-browser';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import MainApp from './core/components/MainApp'
 import FilterFieldsContextProvider from './context/filterFieldsContext/FilterFieldsContextProvider';
@@ -10,6 +10,9 @@ import SearchContextProvider from './context/searchContext/SearchContextProvider
 import RequestPayloadContextProvider from './context/requstPayloadContext/RequestPayloadContextProvider';
 
 function App() {
+
+  console.log("app called");
+
 
   const queryClient = new QueryClient();
   useMsalAuthentication(InteractionType.Redirect);
@@ -21,26 +24,22 @@ function App() {
     account: accounts[0],
   };
 
-  useEffect(() => {
-
-  }, [instance, accounts, inProgress]);
-
   const render = () => {
     try {
-      if (inProgress === InteractionStatus.None) {
-        instance
-          .acquireTokenSilent(accessTokenRequest)
-          .then((accessTokenResponse) => {
-            // Acquire token silent success
-            localStorage.setItem("accessToken", (accessTokenResponse.accessToken));
-          })
-          .catch((error) => {
-            if (error instanceof InteractionRequiredAuthError) {
-              instance.acquireTokenRedirect(accessTokenRequest);
-            }
-            console.log(error);
-          });
-      }
+      // if (inProgress === InteractionStatus.None) {
+      //   instance
+      //     .acquireTokenSilent(accessTokenRequest)
+      //     .then((accessTokenResponse) => {
+      //       // Acquire token silent success
+      //       localStorage.setItem("accessToken", (accessTokenResponse.accessToken));
+      //     })
+      //     .catch((error) => {
+      //       if (error instanceof InteractionRequiredAuthError) {
+      //         instance.acquireTokenRedirect(accessTokenRequest);
+      //       }
+      //       console.log(error);
+      //     });
+      // }
       const username = accounts[0].username;
       setm_strUser(username);
 
