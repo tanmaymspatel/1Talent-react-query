@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { requestPayloadContext } from "./requestPayloadContext"
+import { IRequestPayloadFields } from "../../shared/model/requestPayload.model";
 /** Initial request body for the put call */
 const initialPayLoad = {
     field: "Name",
@@ -22,7 +23,7 @@ interface IRequestPayloadProviderProps {
  */
 function RequestPayloadContextProvider({ children }: IRequestPayloadProviderProps) {
 
-    const [requestPayload, setRequestPayLoad] = useState<any>(initialPayLoad);
+    const [requestPayload, setRequestPayLoad] = useState<IRequestPayloadFields>(initialPayLoad);
 
     const ctx = {
         requestPayload,

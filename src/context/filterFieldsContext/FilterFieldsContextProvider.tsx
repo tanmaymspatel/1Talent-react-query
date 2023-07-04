@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FilterFieldsContext } from "./filterFieldsContext"
+import { IFilterFields } from "../../shared/model/requestPayload.model";
 
 interface IFilterFieldsProviderProps {
     children: React.ReactNode;
@@ -23,7 +24,7 @@ function FilterFieldsContextProvider({ children }: IFilterFieldsProviderProps) {
     const [designationsValue, setDesignationsValue] = useState<string[]>([]);
     const [employementValue, setEmployementValue] = useState<string[]>([]);
     const [gendersValue, setGendersValue] = useState<string[]>([]);
-    const [localFilterFields, setLocalFilterFields] = useState<any>(initialLocalFilterFields);
+    const [localFilterFields, setLocalFilterFields] = useState<IFilterFields>(initialLocalFilterFields);
 
     const filterFieldsCtx = {
         domainState: { selectedDomains, setSelectedDomains },
