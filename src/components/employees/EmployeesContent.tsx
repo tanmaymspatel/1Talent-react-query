@@ -24,7 +24,7 @@ function EmployeesContent({ isGridView, view }: IEmployeeContentProps) {
     const { requestPayload } = useContext<any>(requestPayloadContext);
     /** value of the search string */
     const { debounced } = useContext<any>(SearchContext)
-    const { data: employeesData, isLoading, hasNextPage, fetchNextPage } = useFetchEmployeesData(debounced, requestPayload);
+    const { data: employeesData, isLoading, hasNextPage, fetchNextPage, isFetching } = useFetchEmployeesData(debounced, requestPayload);
     const mainContainerRef = document.getElementById("main");
     /** Y position of the div with id main from the top of the viewport */
     const mainContentYOffset = mainContainerRef?.getBoundingClientRect().y as number;
@@ -67,7 +67,8 @@ function EmployeesContent({ isGridView, view }: IEmployeeContentProps) {
     const dataProps = {
         employeesData,
         hasNextPage,
-        fetchNextPage
+        fetchNextPage,
+        isFetching
     }
 
     return (

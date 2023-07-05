@@ -1,15 +1,16 @@
 import { useEffect } from "react";
-import { SimpleGrid } from "@mantine/core"
+import { Center, Loader, SimpleGrid } from "@mantine/core"
 import { useInView } from "react-intersection-observer";
 
 import { IEmployeeDetails } from "../../shared/model/employees.model"
 import SingleEmployeeCard from "./SingleEmployeeCard"
+import LoadingComponent from "../../shared/components/LoadingComponent";
 /**
  * @returns data of the employees in card form 
  */
 function EmployeesCard({ dataProps }: any) {
 
-    const { employeesData, hasNextPage, fetchNextPage } = dataProps;
+    const { employeesData, hasNextPage, fetchNextPage, isFetching } = dataProps;
     /**
      * ref - ref to be added on the last element
      * inview - To check, if the reference element is in the view port or not
@@ -32,19 +33,24 @@ function EmployeesCard({ dataProps }: any) {
     }, [inView, fetchNextPage, hasNextPage]);
 
     return (
-        <SimpleGrid
-            style={{ marginTop: "2rem" }}
-            cols={3}
-            spacing="lg"
-            verticalSpacing={60}
-            breakpoints={[
-                { maxWidth: '62rem', cols: 3, spacing: 'md' },
-                { maxWidth: '48rem', cols: 2, spacing: 'sm' },
-                { maxWidth: '36rem', cols: 1, spacing: 'sm' },
-            ]}
-        >
-            {cards}
-        </SimpleGrid>
+        <>
+            <SimpleGrid
+                style={{ marginTop: "2rem" }}
+                cols={3}
+                spacing="lg"
+                verticalSpacing={60}
+                breakpoints={[
+                    { maxWidth: '62rem', cols: 3, spacing: 'md' },
+                    { maxWidth: '48rem', cols: 2, spacing: 'sm' },
+                    { maxWidth: '36rem', cols: 1, spacing: 'sm' },
+                ]}
+            >
+                {cards}
+            </SimpleGrid>
+            <Center style={{ textAlign: "center" }}>
+                {isFetching && <Loader />}
+            </Center>
+        </>
     )
 }
 

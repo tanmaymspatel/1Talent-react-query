@@ -8,13 +8,26 @@ import { useEffect } from 'react'
  */
 function Interceptor(props: any) {
     console.log("interceptor called");
+
     const { instance, inProgress, accounts } = useMsal();
+
     const accessTokenRequest = {
         scopes: ['openid', 'offline_access', 'api://582856b6-2df6-45b5-b481-c4bb646d7cca/Employee.Read'],
         account: accounts[0],
     };
 
-    const getToken = () => {
+    console.log({ inProgress }, { instance }, { accounts });
+
+    const ACCESS_TOKEN = localStorage.getItem("accessToken");
+
+    axios.defaults.baseURL = "https://dev-1talent-api.azurewebsites.net/api";
+    axios.interceptors.request.use((config: any) => {
+        config.headers.Author = 'Tanmay Patel'
+        config.headers.Authorization = "Bearer " + ACCESS_TOKEN
+        return config
+    }, (error) => console.log(error))
+
+    useEffect(() => {
         try {
             if (inProgress === InteractionStatus.None) {
                 instance
@@ -22,7 +35,6 @@ function Interceptor(props: any) {
                     .then((accessTokenResponse) => {
                         // Acquire token silent success
                         console.log(accessTokenResponse);
-
                         localStorage.setItem("accessToken", (accessTokenResponse.accessToken));
                     })
                     .catch((error) => {
@@ -36,21 +48,7 @@ function Interceptor(props: any) {
         catch (e) {
             console.log(e);
         }
-    }
-
-    useEffect(() => {
-        getToken()
-    }, [getToken])
-
-
-    const ACCESS_TOKEN = localStorage.getItem("accessToken");
-
-    axios.defaults.baseURL = "https://dev-1talent-api.azurewebsites.net/api";
-    axios.interceptors.request.use((request: any) => {
-        request.headers.Author = 'Tanmay Patel'
-        request.headers.Authorization = "Bearer " + ACCESS_TOKEN
-        return request
-    }, (error) => console.log(error))
+    }, [inProgress, instance])
 
     return <div>{props.children}</div>
 }

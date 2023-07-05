@@ -1,22 +1,26 @@
-import { Table, createStyles } from "@mantine/core";
+import { Center, Loader, Table, createStyles } from "@mantine/core";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer"
 
 import { IEmployeeDetails } from "../../shared/model/employees.model";
 import SingleEmployeeRow from "./SingleEmployeeRow";
+import LoadingComponent from "../../shared/components/LoadingComponent";
 
 const useStyle = createStyles((theme) => ({
     thead: {
         position: "sticky",
         top: 0,
         backgroundColor: theme.white
+    },
+    textCenter: {
+        textAlign: "center"
     }
 }))
 /**
  * @returns data of the employees in table form
  */
 function EmployeesTable({ dataProps }: any) {
-    const { employeesData, hasNextPage, fetchNextPage } = dataProps;
+    const { employeesData, hasNextPage, fetchNextPage, isFetching } = dataProps;
     /**
      * ref - ref to be added on the last element
      * inview - To check, if the reference element is in the view port or not
@@ -50,7 +54,13 @@ function EmployeesTable({ dataProps }: any) {
                     <th>CONTACT</th>
                 </tr>
             </thead>
-            <tbody>{rows}</tbody>
+            <tbody>{rows}
+                <tr className={classes.textCenter}>
+                    <td colSpan={5}>
+                        {isFetching && <Loader />}
+                    </td>
+                </tr>
+            </tbody>
         </Table>
     )
 }

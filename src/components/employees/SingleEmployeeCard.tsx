@@ -28,6 +28,7 @@ const SingleEmployeeCard = React.forwardRef(({ employee }: any, ref: any) => {
 
     const { classes, cx } = useStyle();
     const navigate = useNavigate();
+    // const imageUrl = DOMPurify.sanitizeURL(`data:image/png;base64,${employee?.profileImage}`);
     /**
      * @name onClickHandler
      * @description navigate to perticular user details page, stores data of isClicked and clickedId to the localstorage
@@ -49,7 +50,7 @@ const SingleEmployeeCard = React.forwardRef(({ employee }: any, ref: any) => {
         <>
             <Avatar
                 className={classes.avatar}
-                src={"https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"}
+                src={employee?.profileImage}
                 size={60}
                 radius={"50%"}
             />
