@@ -16,8 +16,8 @@ const useStyle = createStyles(() => ({
  */
 function EmployeeTypesFilter({ employeeTypesFields, setLocalFilterFields }: any) {
     /** Loacl employmet type state for storing checked types */
-    const { employementState } = useContext<any>(FilterFieldsContext);
-    const { employementValue, setEmployementValue } = employementState;
+    const { state, dispatch } = useContext<any>(FilterFieldsContext);
+    const { employmentTypeId } = state;
     const { classes } = useStyle();
     const { setFilterLabel } = utilityServices;
     /**
@@ -26,21 +26,18 @@ function EmployeeTypesFilter({ employeeTypesFields, setLocalFilterFields }: any)
      * @param id id of the checked type
      */
     const handleEmployementTypeChange = (id: string) => {
-        const updatedValues = employementValue.includes(id)
-            ? employementValue.filter((value: any) => value !== id)
-            : [...employementValue, id];
-        setEmployementValue(updatedValues);
+        const updatedValues = employmentTypeId.includes(id)
+            ? employmentTypeId.filter((value: any) => value !== id)
+            : [...employmentTypeId, id];
+        dispatch({ type: "UPDATE_EMPLOYEE_TYPES_FIELD", payload: updatedValues })
     }
-    /** setting the local filter fields modifying the value of checked emplyment type array*/
-    useEffect(() => {
-        setLocalFilterFields((prev: any) => { return { ...prev, employmentTypeId: employementValue } })
-    }, [employementValue])
+
     return (
         <Menu>
             <Menu.Target>
                 <UnstyledButton p={"0.5rem"}>
                     <Group spacing={3}>
-                        <Text>{setFilterLabel(employementValue, employeeTypesFields, "Employment Type")}</Text>
+                        <Text>{setFilterLabel(employmentTypeId, employeeTypesFields, "Employment Type")}</Text>
                         <IconChevronDown size="1.25rem" />
                     </Group>
                 </UnstyledButton>
@@ -53,7 +50,7 @@ function EmployeeTypesFilter({ employeeTypesFields, setLocalFilterFields }: any)
                                 key={type?.employmentTypeId}
                                 value={type?.employmentTypeId}
                                 label={type?.employmentType}
-                                checked={employementValue.includes(type?.employmentTypeId)}
+                                checked={employmentTypeId.includes(type?.employmentTypeId)}
                                 onChange={() => handleEmployementTypeChange(type?.employmentTypeId)}
                             />
                         })

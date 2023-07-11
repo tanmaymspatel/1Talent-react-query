@@ -2,14 +2,11 @@ import { useState } from 'react';
 import {
     AppShell,
     Navbar,
-    Header,
-    MediaQuery,
-    Burger,
     useMantineTheme,
-    Title,
 } from '@mantine/core';
 import Sidebar from './Sidebar';
 import Routing from './Routing';
+import MainHeader from './MainHeader';
 /**
  * @returns main application structure including header, sidebar and routing 
  */
@@ -35,22 +32,7 @@ function MainApp() {
                     <Sidebar />
                 </Navbar>
             }
-            header={
-                <Header height={{ base: 50, md: 70 }} p="md">
-                    <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
-                        <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
-                            <Burger
-                                opened={opened}
-                                onClick={() => setOpened((o) => !o)}
-                                size="sm"
-                                color={theme.colors.gray[6]}
-                                mr="xl"
-                            />
-                        </MediaQuery>
-                        <Title order={3}>1Rivet</Title>
-                    </div>
-                </Header>
-            }
+            header={<MainHeader opened={opened} setOpened={setOpened} />}
         >
             <Routing />
         </AppShell>

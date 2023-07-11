@@ -1,32 +1,32 @@
-
 import { InteractionStatus, InteractionRequiredAuthError } from "@azure/msal-browser";
 import { useMsal } from "@azure/msal-react";
 import axios from "axios"
 import { useEffect } from 'react'
+interface IInterCeptorPrps {
+    children: React.ReactNode
+}
 /**
  * @returns Interceptor for adding access token to the headers
  */
-function Interceptor(props: any) {
-    console.log("interceptor called");
+function Interceptor({ children }: IInterCeptorPrps) {
 
     const { instance, inProgress, accounts } = useMsal();
-
+    /** accesstoken request object to get the access token */
     const accessTokenRequest = {
         scopes: ['openid', 'offline_access', 'api://582856b6-2df6-45b5-b481-c4bb646d7cca/Employee.Read'],
         account: accounts[0],
     };
-
-    console.log({ inProgress }, { instance }, { accounts });
-
+    /** getting access token from the local storage */
     const ACCESS_TOKEN = localStorage.getItem("accessToken");
-
+    /** Changing the base url for api calls */
     axios.defaults.baseURL = "https://dev-1talent-api.azurewebsites.net/api";
+    /** Intercepting the request headers */
     axios.interceptors.request.use((config: any) => {
         config.headers.Author = 'Tanmay Patel'
         config.headers.Authorization = "Bearer " + ACCESS_TOKEN
         return config
     }, (error) => console.log(error))
-
+    /** Getting the access token and storing it to the local storage */
     useEffect(() => {
         try {
             if (inProgress === InteractionStatus.None) {
@@ -50,7 +50,7 @@ function Interceptor(props: any) {
         }
     }, [inProgress, instance])
 
-    return <div>{props.children}</div>
+    return <div>{children}</div>
 }
 
 

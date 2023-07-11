@@ -5,7 +5,8 @@ import EmployeeTypesFilter from "./EmployeeTypesFilter";
 import DesignationsFilter from "./DesignationsFilter";
 import GendersFilter from "./GendersFilter";
 import DomainsFilter from "./DomainsFilter";
-import { requestPayloadContext } from "../../context/requstPayloadContext/requestPayloadContext";
+import { requestPayloadContext } from "../../context/requestPayloadContext/requestPayloadContext";
+import { FilterFieldsContext } from "../../context/filterFieldsContext/filterFieldsContext";
 
 const useStyle = createStyles((theme) => ({
     wrapper: {
@@ -24,35 +25,35 @@ const useStyle = createStyles((theme) => ({
 /**
  * @returns A filter bar for filtering the list
  */
-function FilterEmployees({ setIsFilterBarOpen, filterFields, isFilterFieldsEmpty, localFilterFields, setLocalFilterFields }: any) {
+function FilterEmployees({ setIsFilterBarOpen, filterFields, isFilterFieldsEmpty }: any) {
     const { classes } = useStyle();
+    const { state } = useContext(FilterFieldsContext);
     const { domainFields, employeeTypesFields, designationFields, genderFields } = filterFields;
     /** Method to set the filter obbject for the post call request body */
     const { setRequestPayLoad } = useContext<any>(requestPayloadContext);
     /**
      * @name setRequestPayLoadOnApply
-     * @description To set the local checked filter fields to the request body which is to be used in post call
+     * @description To set the filter fields to the request body which is to be used in post call
      */
     const setRequestPayLoadOnApply = () => {
-        setRequestPayLoad((prev: any) => { return { ...prev, filter: localFilterFields } })
-        setIsFilterBarOpen(false)
+        setRequestPayLoad((prev: any) => { return { ...prev, filter: state } })
+        setIsFilterBarOpen(false);
     }
 
     return (
         <Group spacing={"xs"} className={classes.wrapper}>
             <EmployeeTypesFilter
                 employeeTypesFields={employeeTypesFields}
-                setLocalFilterFields={setLocalFilterFields} />
+            />
             <DomainsFilter
                 domainFields={domainFields}
-                setLocalFilterFields={setLocalFilterFields} />
+            />
             <DesignationsFilter
                 designationFields={designationFields}
-                setLocalFilterFields={setLocalFilterFields}
             />
             <GendersFilter
                 genderFields={genderFields}
-                setLocalFilterFields={setLocalFilterFields} />
+            />
             <Divider orientation="vertical" />
             <Group spacing={6} p={"0.5rem"}>
                 <Button size="xs" disabled={isFilterFieldsEmpty} onClick={setRequestPayLoadOnApply}>Apply</Button>

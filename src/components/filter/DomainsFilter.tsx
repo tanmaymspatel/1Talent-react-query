@@ -1,5 +1,5 @@
 import { Stack, Checkbox, Group, Menu, UnstyledButton, createStyles, Text } from "@mantine/core";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { FilterFieldsContext } from "../../context/filterFieldsContext/filterFieldsContext";
 import { IconChevronDown } from "@tabler/icons-react";
 import utilityServices from "../../shared/services/utilityServices";
@@ -14,12 +14,11 @@ const useStyle = createStyles(() => ({
 /**
  * @returns functionality to filter data by domain names
  */
-function DomainsFilter({ domainFields, setLocalFilterFields }: any) {
+function DomainsFilter({ domainFields }: any) {
 
     /** State for storing the checked domain and sub domain fields in the context */
-    const { domainState, subDomainState } = useContext<any>(FilterFieldsContext);
-    const { selectedDomains, setSelectedDomains } = domainState;
-    const { selectedSubDomains, setSelectedSubDomains } = subDomainState;
+    const { state, dispatch } = useContext<any>(FilterFieldsContext);
+    const { domains, subDomains } = state;
     const { classes } = useStyle();
     const { setFilterLabel } = utilityServices;
     /**
@@ -28,37 +27,34 @@ function DomainsFilter({ domainFields, setLocalFilterFields }: any) {
      * @param id id of the checked element
      */
     const handleDomainsChange = (id: string) => {
-        const updatedDomains = selectedDomains.includes(id)
-            ? selectedDomains.filter((val: any) => val !== id)
-            : [...selectedDomains, id];
-        setSelectedDomains(updatedDomains);
+        const updatedDomains = domains.includes(id)
+            ? domains.filter((val: any) => val !== id)
+            : [...domains, id];
+        dispatch({ type: "UPDATE_DOMAIN_FIELD", payload: updatedDomains })
 
-        if (!selectedDomains.includes(id)) {
+        if (!domains.includes(id)) {
             const subDomainsToAdd = domainFields.data
                 .find((domain: any) => domain.id === id)
                 .subDomains.map((subDomain: any) => subDomain.id);
-            setSelectedSubDomains([...selectedSubDomains, ...subDomainsToAdd]);
+            dispatch({ type: "UPDATE_SUB_DOMAIN_FIELD", payload: [...subDomains, ...subDomainsToAdd] })
         } else {
             const subDomainsToRemove = domainFields.data
                 .find((domain: any) => domain.id === id)
                 .subDomains.map((subDomain: any) => subDomain.id);
-            setSelectedSubDomains(
-                selectedSubDomains.filter(
-                    (subDomain: any) => !subDomainsToRemove.includes(subDomain)
-                )
-            );
+            const updatedSubDomains = subDomains.filter((subDomain: any) => !subDomainsToRemove.includes(subDomain));
+            dispatch({ type: "UPDATE_SUB_DOMAIN_FIELD", payload: updatedSubDomains })
         }
     };
     /**
      * @name handleSubDomainsChange
      * @description To store the checked values 
      * @param id id of the checked element
-     */
+    */
     const handleSubDomainsChange = (id: string) => {
-        const updatedSubDomains = selectedSubDomains.includes(id)
-            ? selectedSubDomains.filter((val: any) => val !== id)
-            : [...selectedSubDomains, id];
-        setSelectedSubDomains(updatedSubDomains);
+        const updatedSubDomains = subDomains.includes(id)
+            ? subDomains.filter((val: any) => val !== id)
+            : [...subDomains, id];
+        dispatch({ type: "UPDATE_SUB_DOMAIN_FIELD", payload: updatedSubDomains })
 
         const parentDomain = domainFields.data.find((domain: any) =>
             domain.subDomains.some((subDomain: any) => subDomain.id === id)
@@ -73,33 +69,23 @@ function DomainsFilter({ domainFields, setLocalFilterFields }: any) {
                     subDomainsOfParent.includes(subDomain)
                 )
             ) {
-                setSelectedDomains((prevDomains: any) =>
-                    prevDomains.includes(parentDomain.id)
-                        ? prevDomains
-                        : [...prevDomains, parentDomain.id]
-                );
+                const updatedDomains = domains.includes(parentDomain.id)
+                    ? domains
+                    : [...domains, parentDomain.id];
+                dispatch({ type: "UPDATE_DOMAIN_FIELD", payload: updatedDomains });
             } else {
-                setSelectedDomains((prevDomains: any) =>
-                    prevDomains.filter((domain: any) => domain !== parentDomain.id)
-                );
+                const updatedDomains = domains.filter((domain: any) => domain !== parentDomain.id)
+                dispatch({ type: "UPDATE_DOMAIN_FIELD", payload: updatedDomains });
             }
         }
     };
-    /** Set the local filter fields if there is any change in the checked values of the domains or subdomains */
-    useEffect(() => {
-        setLocalFilterFields((prev: any) => ({
-            ...prev,
-            domains: selectedDomains,
-            subDomains: selectedSubDomains
-        }));
-    }, [selectedDomains, selectedSubDomains]);
 
     return (
         <Menu>
             <Menu.Target>
                 <UnstyledButton p={"0.5rem"}>
                     <Group spacing={3}>
-                        <Text>{setFilterLabel(selectedDomains, domainFields, "Domains")}</Text>
+                        <Text>{setFilterLabel(domains, domainFields, "Domains")}</Text>
                         <IconChevronDown size="1.25rem" />
                     </Group>
                 </UnstyledButton>
@@ -112,12 +98,12 @@ function DomainsFilter({ domainFields, setLocalFilterFields }: any) {
                             <Checkbox
                                 id={domain?.id}
                                 label={domain?.name}
-                                checked={selectedDomains?.includes(domain?.id)}
+                                checked={domains?.includes(domain?.id)}
                                 onChange={() => {
                                     handleDomainsChange(domain?.id);
                                 }}
                                 indeterminate={
-                                    (domain?.subDomains?.length > 0 && !(domain?.subDomains?.length === selectedSubDomains?.length) && selectedSubDomains?.length > 0)
+                                    (domain?.subDomains?.length > 0 && !(domain?.subDomains?.length === subDomains?.length) && subDomains?.length > 0)
                                 }
                             />
                             <Stack pl={"2rem"} spacing={4}>
@@ -127,7 +113,7 @@ function DomainsFilter({ domainFields, setLocalFilterFields }: any) {
                                             <Checkbox
                                                 value={subDomain?.id}
                                                 label={subDomain?.name}
-                                                checked={selectedSubDomains?.includes(subDomain?.id)}
+                                                checked={subDomains?.includes(subDomain?.id)}
                                                 onChange={() => {
                                                     handleSubDomainsChange(subDomain?.id);
                                                 }}

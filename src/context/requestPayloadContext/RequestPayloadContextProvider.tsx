@@ -1,7 +1,10 @@
 import { useState } from "react"
 import { requestPayloadContext } from "./requestPayloadContext"
 import { IRequestPayloadFields } from "../../shared/model/requestPayload.model";
-/** Initial request body for the put call */
+interface IRequestPayloadProviderProps {
+    children: React.ReactNode;
+}
+/** Initial request body for the post call */
 const initialPayLoad = {
     field: "Name",
     order: "asc",
@@ -14,17 +17,13 @@ const initialPayLoad = {
         subDomains: []
     }
 }
-
-interface IRequestPayloadProviderProps {
-    children: React.ReactNode;
-}
 /**
- * @returns State for the requst body payload
+ * @returns State for the payload for the post request to get the employees details
  */
 function RequestPayloadContextProvider({ children }: IRequestPayloadProviderProps) {
-
+    /** State for the request payload */
     const [requestPayload, setRequestPayLoad] = useState<IRequestPayloadFields>(initialPayLoad);
-
+    /** Values to be passed in request payload context provider, which is to be consumed */
     const ctx = {
         requestPayload,
         setRequestPayLoad
