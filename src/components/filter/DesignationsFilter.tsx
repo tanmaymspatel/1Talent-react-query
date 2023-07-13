@@ -15,11 +15,13 @@ const useStyle = createStyles(() => ({
 /**
  * @returns functionality to filter data by designations
  */
-function DesignationsFilter({ designationFields, setLocalFilterFields }: any) {
+function DesignationsFilter({ designationFields }: any) {
 
     /** State for storing the checked designation fields in the context */
-    const { designationState } = useContext<any>(FilterFieldsContext);
-    const { designationsValue, setDesignationsValue } = designationState;
+    const { state, dispatch } = useContext<any>(FilterFieldsContext);
+    const { designations } = state;
+    console.log({ state });
+
     const { classes } = useStyle();
     const { setFilterLabel } = utilityServices;
     /**
@@ -28,22 +30,18 @@ function DesignationsFilter({ designationFields, setLocalFilterFields }: any) {
      * @param id id of the checked element
      */
     const handleDesignationsChange = (id: string) => {
-        const updatedValues = designationsValue.includes(id)
-            ? designationsValue.filter((value: any) => value !== id)
-            : [...designationsValue, id];
-        setDesignationsValue(updatedValues);
+        const updatedValues = designations.includes(id)
+            ? designations.filter((value: any) => value !== id)
+            : [...designations, id];
+        dispatch({ type: "UPDATE_DESIGNATION_FIELD", payload: updatedValues })
     }
-    /** Set the local filter fields if there is any change in the checked values of the designations */
-    useEffect(() => {
-        setLocalFilterFields((prev: any) => { return { ...prev, designations: designationsValue } })
-    }, [designationsValue])
 
     return (
         <Menu>
             <Menu.Target>
                 <UnstyledButton p={"0.5rem"}>
                     <Group spacing={3}>
-                        <Text>{setFilterLabel(designationsValue, designationFields, "Designations")}</Text>
+                        <Text>{setFilterLabel(designations, designationFields, "Designations")}</Text>
                         <IconChevronDown size="1.25rem" />
                     </Group>
                 </UnstyledButton>
@@ -57,7 +55,7 @@ function DesignationsFilter({ designationFields, setLocalFilterFields }: any) {
                                 key={designation?.id}
                                 value={designation?.id}
                                 label={designation?.name}
-                                checked={designationsValue.includes(designation?.id)}
+                                checked={designations?.includes(designation?.id)}
                                 onChange={() => handleDesignationsChange(designation?.id)}
                             />
                         })

@@ -17,8 +17,8 @@ const useStyle = createStyles(() => ({
  */
 function GendersFilter({ genderFields, setLocalFilterFields }: any) {
     /** State for storing the checked designation fields in the context */
-    const { genderState } = useContext<any>(FilterFieldsContext)
-    const { gendersValue, setGendersValue } = genderState;
+    const { state, dispatch } = useContext<any>(FilterFieldsContext);
+    const { genders } = state;
     const { classes } = useStyle();
     const { setFilterLabel } = utilityServices;
     /**
@@ -27,22 +27,18 @@ function GendersFilter({ genderFields, setLocalFilterFields }: any) {
      * @param id id of the checked element
      */
     const handleGenderChange = (id: string) => {
-        const updatedValues = gendersValue.includes(id)
-            ? gendersValue.filter((value: any) => value !== id)
-            : [...gendersValue, id];
-        setGendersValue(updatedValues);
+        const updatedValues = genders.includes(id)
+            ? genders.filter((value: any) => value !== id)
+            : [...genders, id];
+        dispatch({ type: "UPDATE_GENDER_FIELD", payload: updatedValues })
     };
-    /** Set the local filter fields if there is any change in the checked values of the designations */
-    useEffect(() => {
-        setLocalFilterFields((prev: any) => { return { ...prev, genders: gendersValue } })
-    }, [gendersValue]);
 
     return (
         <Menu>
             <Menu.Target>
                 <UnstyledButton p={"0.5rem"}>
                     <Group spacing={3}>
-                        <Text>{setFilterLabel(gendersValue, genderFields, "Gender")}</Text>
+                        <Text>{setFilterLabel(genders, genderFields, "Gender")}</Text>
                         <IconChevronDown size="1.25rem" />
                     </Group>
                 </UnstyledButton>
@@ -55,7 +51,7 @@ function GendersFilter({ genderFields, setLocalFilterFields }: any) {
                                 key={gender?.id}
                                 value={gender?.id}
                                 label={gender?.name}
-                                checked={gendersValue.includes(gender?.id)}
+                                checked={genders.includes(gender?.id)}
                                 onChange={() => handleGenderChange(gender?.id)}
                             />
                         })

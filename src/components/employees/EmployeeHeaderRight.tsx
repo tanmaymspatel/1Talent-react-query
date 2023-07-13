@@ -61,17 +61,16 @@ function EmployeeHeaderRight({ view, setView, filterFields }: IEmployeeHeaderRig
     const { search, setSearch } = useContext<any>(SearchContext);
     /** To determine whether the search bar is open */
     const [isFilterBarOpen, setIsFilterBarOpen] = useState<boolean>(false);
-    /** Local state for storing the data of the filter fields which is checked or unchecked */
-    const { localState } = useContext<any>(FilterFieldsContext);
+    /** State for storing the data of the filter fields which is checked or unchecked */
+    const { state } = useContext(FilterFieldsContext);
     /** object to store the local changes in the filter field */
-    const { localFilterFields, setLocalFilterFields } = localState;
     /** To check if all the filter fields are unchecked */
     const isFilterFieldsEmpty =
-        !localFilterFields.designations.length
-        && !localFilterFields.domains.length
-        && !localFilterFields.employmentTypeId.length
-        && !localFilterFields.genders.length
-        && !localFilterFields.subDomains.length;
+        !state.designations.length
+        && !state.domains.length
+        && !state.employmentTypeId.length
+        && !state.genders.length
+        && !state.subDomains.length;
 
     return (
         <Group>
@@ -104,8 +103,6 @@ function EmployeeHeaderRight({ view, setView, filterFields }: IEmployeeHeaderRig
                     filterFields={filterFields}
                     setIsFilterBarOpen={setIsFilterBarOpen}
                     isFilterFieldsEmpty={isFilterFieldsEmpty}
-                    setLocalFilterFields={setLocalFilterFields}
-                    localFilterFields={localFilterFields}
                 />
             }
         </Group>

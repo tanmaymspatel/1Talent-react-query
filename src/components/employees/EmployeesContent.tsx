@@ -5,7 +5,7 @@ import EmployeesTable from "./EmployeesTable";
 import utilityServices from "../../shared/services/utilityServices";
 import useFetchEmployeesData from '../../hooks/useFetchEmployeesData';
 import LoadingComponent from '../../shared/components/LoadingComponent';
-import { requestPayloadContext } from '../../context/requstPayloadContext/requestPayloadContext';
+import { requestPayloadContext } from '../../context/requestPayloadContext/requestPayloadContext';
 import { SearchContext } from '../../context/searchContext/searchContext';
 
 interface IEmployeeContentProps {

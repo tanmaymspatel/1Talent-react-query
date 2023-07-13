@@ -1,22 +1,15 @@
 import { createContext } from "react";
 import { IFilterFields } from "../../shared/model/requestPayload.model";
+import { IAction } from "../../shared/model/filterContext.model";
 
 interface IFilterFieldsContext {
-    domainState: { selectedDomains: string[], setSelectedDomains: React.Dispatch<React.SetStateAction<string[]>> },
-    subDomainState: { selectedSubDomains: string[], setSelectedSubDomains: React.Dispatch<React.SetStateAction<string[]>> },
-    designationState: { designationsValue: string[], setDesignationsValue: React.Dispatch<React.SetStateAction<string[]>> },
-    employementState: { employementValue: string[], setEmployementValue: React.Dispatch<React.SetStateAction<string[]>> },
-    genderState: { gendersValue: string[], setGendersValue: React.Dispatch<React.SetStateAction<string[]>> },
-    localState: { localFilterFields: IFilterFields, setLocalFilterFields: React.Dispatch<React.SetStateAction<IFilterFields>> }
-}
-
+    state: IFilterFields,
+    dispatch: React.Dispatch<IAction>
+};
+/** Initial value to be added in filter context */
 const initialValue = {
-    domainState: { selectedDomains: [], setSelectedDomains: () => { } },
-    subDomainState: { selectedSubDomains: [], setSelectedSubDomains: () => { } },
-    designationState: { designationsValue: [], setDesignationsValue: () => { } },
-    employementState: { employementValue: [], setEmployementValue: () => { } },
-    genderState: { gendersValue: [], setGendersValue: () => { } },
-    localState: { localFilterFields: {} as IFilterFields, setLocalFilterFields: () => { } }
+    state: {} as IFilterFields,
+    dispatch: () => { },
 }
-
+/** Creating a context for storing the value of the filter fields */
 export const FilterFieldsContext = createContext<IFilterFieldsContext>(initialValue);
