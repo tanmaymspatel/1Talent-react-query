@@ -7,6 +7,7 @@ import {
 import Sidebar from './Sidebar';
 import Routing from './Routing';
 import MainHeader from './MainHeader';
+import StartupPopup from '../../shared/components/StartupPopup';
 /**
  * @returns main application structure including header, sidebar and routing 
  */
@@ -35,6 +36,7 @@ function MainApp() {
             header={<MainHeader opened={opened} setOpened={setOpened} />}
         >
             <Routing />
+            < StartupPopup />
         </AppShell>
     );
 }

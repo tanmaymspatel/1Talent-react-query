@@ -7,6 +7,8 @@ import {
 } from '@tabler/icons-react';
 import { NavLink } from 'react-router-dom';
 
+import { useMsal } from '@azure/msal-react';
+
 const useStyles = createStyles((theme) => ({
     header: {
         paddingBottom: theme.spacing.md,
@@ -65,6 +67,13 @@ function Sidebar() {
     const { classes, cx } = useStyles();
     const [active, setActive] = useState('Employees');
 
+    const { instance } = useMsal();
+
+    const handleLogout = (e: any) => {
+        e.preventDefault();
+        instance.logout();
+    };
+
     const links = data.map((item) => (
         <NavLink
             to={item.link}
@@ -89,7 +98,7 @@ function Sidebar() {
                     <span>Change account</span>
                 </a>
 
-                <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
+                <a className={classes.link} onClick={handleLogout}>
                     <IconLogout className={classes.linkIcon} stroke={1.5} />
                     <span>Logout</span>
                 </a>

@@ -8,11 +8,13 @@ import MainApp from './core/components/MainApp'
 import FilterFieldsContextProvider from './context/filterFieldsContext/FilterFieldsContextProvider';
 import SearchContextProvider from './context/searchContext/SearchContextProvider';
 import RequestPayloadContextProvider from './context/requestPayloadContext/RequestPayloadContextProvider';
+import useBeforeUnload from './hooks/useBeforeUnload';
 
 function App() {
 
   console.log("app called");
-
+  // remove seen pop key from the local storage
+  // useBeforeUnload();
   const queryClient = new QueryClient();
   useMsalAuthentication(InteractionType.Redirect);
   const [m_strUser, setm_strUser] = useState<string>("");
@@ -54,7 +56,7 @@ function App() {
             </SearchContextProvider>
           </FilterFieldsContextProvider>
         </RequestPayloadContextProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
+        <ReactQueryDevtools initialIsOpen={false} position='bottom-right' />
       </ QueryClientProvider >
     )
   }
