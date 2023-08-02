@@ -16,7 +16,7 @@ function PersonalInfo({ personaInfo }: any) {
 
     return (
         <Group noWrap spacing={"2rem"}>
-            <Avatar src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80" size={94} radius={50} />
+            <Avatar src={personaInfo?.profileImage} size={94} radius={50} />
             <div>
                 <Text fz="xs" tt="uppercase" fw={700} color={theme.colors.gray[5]}>
                     {personaInfo?.userCode ? personaInfo?.userCode : "N/A"}
